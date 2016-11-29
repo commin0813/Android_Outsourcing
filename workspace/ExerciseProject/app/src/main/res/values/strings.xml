@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">ExerciseProject</string>
     <string-array name="menu">
-        <item>Do Excercise</item>
-        <item>Play Game</item>
-        <item>Wow</item>
-        <item>hehehehe</item>
-
-
+        <item>운동하자</item>
+        <item>달력보자</item>
+        <item>게임하자</item>
+        <item>사진편집</item>
     </string-array>
 
 </resources>

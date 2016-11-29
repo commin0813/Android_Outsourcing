@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.commin.pro.exerciseproject.page.list.Page2List;
+import com.commin.pro.exerciseproject.page.menu_list.Page2MenuList;
 
 public class Application extends AppCompatActivity {
 
@@ -55,7 +55,7 @@ public class Application extends AppCompatActivity {
     }
 
     private void createGUI() {
-        Intent intent = new Intent(Application.this, Page2List.class);
+        Intent intent = new Intent(Application.this, Page2MenuList.class);
         startActivity(intent);
     }
 

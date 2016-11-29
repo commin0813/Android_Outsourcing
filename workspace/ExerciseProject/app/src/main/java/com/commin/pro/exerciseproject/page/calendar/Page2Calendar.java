@@ -11,5 +11,10 @@ public class Page2Calendar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_calendar_layout);
+        createGUI();
     }
+    private void createGUI(){
+
+    }
+
 }

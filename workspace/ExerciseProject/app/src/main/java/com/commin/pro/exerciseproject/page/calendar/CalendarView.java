@@ -71,7 +71,7 @@ public class CalendarView extends LinearLayout {
 
         init_date_format(attrs);
         init_elements();
-        assignClickHandlers();
+        init_click_handler();
 
         updateCalendar();
     }
@@ -96,7 +96,7 @@ public class CalendarView extends LinearLayout {
         grid = (GridView) findViewById(R.id.calendar_grid);
     }
 
-    private void assignClickHandlers() {
+    private void init_click_handler() {
         btn_next.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

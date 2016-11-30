@@ -171,19 +171,19 @@
                     android:background="@color/colorPrimaryDark" />
 
                 <CheckBox
-                    android:id="@+id/beginner_excercize_fisrt"
+                    android:id="@+id/check_excercize_fisrt"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_gravity="center" />
 
                 <CheckBox
-                    android:id="@+id/beginner_excercize_second"
+                    android:id="@+id/check_excercize_second"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_gravity="center" />
 
                 <CheckBox
-                    android:id="@+id/beginner_excercize_third"
+                    android:id="@+id/check_excercize_third"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_gravity="center" />
@@ -206,11 +206,11 @@
             android:weightSum="2">
 
             <Button
-                android:id="@+id/beginner_save"
+                android:id="@+id/btn_beginner_save"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/colorOrange"
                 android:text="저장"
                 android:textColor="@color/colorWhiteFA" />
 
@@ -220,11 +220,11 @@
                 android:background="@color/colorGrayCD" />
 
             <Button
-                android:id="@+id/beginner_cancel"
+                android:id="@+id/btn_beginner_cancel"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/colorOrange"
                 android:text="취소"
                 android:textColor="@color/colorWhiteFA" />
 

@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.commin.pro.exerciseproject.ApplicationProperty;
 import com.commin.pro.exerciseproject.R;
+import com.commin.pro.exerciseproject.model.Model2Excercise;
 import com.commin.pro.exerciseproject.model.Model2Menu;
 import com.commin.pro.exerciseproject.page.calendar.Page2Calendar;
 import com.commin.pro.exerciseproject.page.do_excercise_beginner.Page2DoExcerciseBegin;
@@ -69,12 +71,12 @@ public class Page2MenuList extends AppCompatActivity {
                         UtilDialog.openCustomDialogConfirm(Page2MenuList.this, "난이도선택", "난이도를선택하세요", "고급", "초급", new UtilCustomDialog.OnClickListener() {
                             @Override
                             public void onClick() {
-                                startActivity(new Intent(Page2MenuList.this,Page2DoExcerciseBegin.class));
+                                startActivityForResult(new Intent(Page2MenuList.this,Page2DoExcerciseBegin.class),ApplicationProperty.REQUEST_CODE_FOR_EXCERCIZE_EXPERT);
                             }
                         }, new UtilCustomDialog.OnClickListener() {
                             @Override
                             public void onClick() {
-                                startActivity(new Intent(Page2MenuList.this,Page2DoExcerciseBegin.class));
+                                startActivityForResult(new Intent(Page2MenuList.this,Page2DoExcerciseBegin.class),ApplicationProperty.REQUEST_CODE_FOR_EXCERCIZE_BEGINNER);
                             }
                         });
 
@@ -98,5 +100,22 @@ public class Page2MenuList extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(resultCode){
+            case ApplicationProperty.RESULT_CODE_FOR_EXCERCIZE_BEGINNER:{
+                Model2Excercise model = (Model2Excercise) data.getSerializableExtra("Model2Excercise");
+                UtilDialog.showToast(Page2MenuList.this,model.getDate().toString()+"level:"+model.isBeginner());
+                break;
+            }
+            case ApplicationProperty.RESULT_CODE_FOR_EXCERCIZE_EXPERT:{
+
+
+                break;
+            }
+        }
     }
 }

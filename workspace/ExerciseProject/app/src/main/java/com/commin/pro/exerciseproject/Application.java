@@ -17,7 +17,7 @@ public class Application extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.application_layout);
-        getPermission();
+//        getPermission();
         createGUI();
     }
 
@@ -57,6 +57,7 @@ public class Application extends AppCompatActivity {
     private void createGUI() {
         Intent intent = new Intent(Application.this, Page2MenuList.class);
         startActivity(intent);
+        finish();
     }
 
 }

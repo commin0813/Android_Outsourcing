@@ -7,4 +7,6 @@ public class ApplicationProperty {
     //Code
     public static  final int MY_PERMISSIONS_REQUEST_CAMERA = 100223;
 
+    public static final int REQUEST_CODE_FOR_CALENDAR_VIEW=34534;
+
 }

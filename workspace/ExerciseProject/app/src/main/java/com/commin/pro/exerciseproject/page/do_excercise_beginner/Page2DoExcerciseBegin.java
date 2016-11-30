@@ -66,7 +66,7 @@ public class Page2DoExcerciseBegin extends AppCompatActivity {
         btn_beginner_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                finish();
             }
         });
 

@@ -69,14 +69,14 @@ public class CalendarView extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.page_calendar_item, this);
 
-        loadDateFormat(attrs);
-        assignUiElements();
+        init_date_format(attrs);
+        init_elements();
         assignClickHandlers();
 
         updateCalendar();
     }
 
-    private void loadDateFormat(AttributeSet attrs) {
+    private void init_date_format(AttributeSet attrs) {
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CalendarView);
 
         try {
@@ -88,7 +88,7 @@ public class CalendarView extends LinearLayout {
         }
     }
 
-    private void assignUiElements() {
+    private void init_elements() {
         header = (LinearLayout) findViewById(R.id.calendar_header);
         btn_prev = (ImageView) findViewById(R.id.calendar_prev_button);
         btn_next = (ImageView) findViewById(R.id.calendar_next_button);

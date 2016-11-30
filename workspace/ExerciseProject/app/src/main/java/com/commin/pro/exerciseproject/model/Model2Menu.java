@@ -2,10 +2,12 @@ package com.commin.pro.exerciseproject.model;
 
 import android.graphics.drawable.Drawable;
 
+import java.io.Serializable;
+
 /**
  * Created by user on 2016-11-28.
  */
-public class Model2Menu {
+public class Model2Menu implements Serializable {
     private String menu_text;
     private Drawable icon;
 

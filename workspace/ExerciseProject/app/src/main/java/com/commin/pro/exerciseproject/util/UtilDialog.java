@@ -26,6 +26,9 @@ public class UtilDialog {
                 .create();
         alertDialog.show();
     }
+    public static void openCustomDialogConfirm(Activity activity, String title, String message, String mLeft, String mRight, UtilCustomDialog.OnClickListener ok_listener, UtilCustomDialog.OnClickListener cancel_listener) {
+        new UtilCustomDialog(activity, title, message, mLeft, mRight, ok_listener, cancel_listener).show();
+    }
 
     public static void showToast(Activity activity, String message) {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();

@@ -7,15 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.commin.pro.exerciseproject.R;
 import com.commin.pro.exerciseproject.model.Model2Menu;
 import com.commin.pro.exerciseproject.page.calendar.Page2Calendar;
-import com.commin.pro.exerciseproject.page.do_excercise.Page2DoExcercise;
+import com.commin.pro.exerciseproject.page.do_excercise_beginner.Page2DoExcerciseBegin;
 import com.commin.pro.exerciseproject.page.game.Page2Game;
 import com.commin.pro.exerciseproject.page.photo_edit.Page2PhotoEdit;
+import com.commin.pro.exerciseproject.util.UtilCustomDialog;
+import com.commin.pro.exerciseproject.util.UtilDialog;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -64,7 +65,19 @@ public class Page2MenuList extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 switch (position) {
                     case ITEM_SELECT_EXCERCIZE: {
-                        startActivity(new Intent(Page2MenuList.this,Page2DoExcercise.class));
+
+                        UtilDialog.openCustomDialogConfirm(Page2MenuList.this, "난이도선택", "난이도를선택하세요", "고급", "초급", new UtilCustomDialog.OnClickListener() {
+                            @Override
+                            public void onClick() {
+                                startActivity(new Intent(Page2MenuList.this,Page2DoExcerciseBegin.class));
+                            }
+                        }, new UtilCustomDialog.OnClickListener() {
+                            @Override
+                            public void onClick() {
+                                startActivity(new Intent(Page2MenuList.this,Page2DoExcerciseBegin.class));
+                            }
+                        });
+
                         break;
                     }
                     case ITEM_SELECT_CALENDAR: {

@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.commin.pro.exerciseproject.ApplicationProperty;
 import com.commin.pro.exerciseproject.R;
 import com.commin.pro.exerciseproject.page.calendar_view.Page2CalendarView;
+import com.commin.pro.exerciseproject.util.UtilDialog;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -34,14 +35,12 @@ public class Page2Calendar extends AppCompatActivity {
         cv.setEventHandler(new CalendarView.EventHandler() {
             @Override
             public void onDayLongPress(Date date) {
-                // show returned day
                 DateFormat df = SimpleDateFormat.getDateInstance();
-                Toast.makeText(Page2Calendar.this, df.format(date), Toast.LENGTH_SHORT).show();
+                UtilDialog.showToast(Page2Calendar.this,df.format(date));
             }
 
             @Override
             public void onDayClick(Date date) {
-                // show returned day
 //                DateFormat df = SimpleDateFormat.getDateInstance();
 //                Toast.makeText(Page2Calendar.this, df.format(date), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Page2Calendar.this, Page2CalendarView.class);

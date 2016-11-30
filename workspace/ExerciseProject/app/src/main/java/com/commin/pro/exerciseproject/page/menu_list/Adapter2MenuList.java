@@ -42,8 +42,8 @@ public class Adapter2MenuList extends ArrayAdapter<Model2Menu> {
         final ImageView imageView = (ImageView) view.findViewById(R.id.iv_icon_item);
 
         textView.setText(model.getMenu_text());
-        imageView.setVisibility(View.INVISIBLE);
-        imageView.setImageResource(R.drawable.camera);
+
+        imageView.setImageDrawable(model.getIcon());
 
 
         return view;

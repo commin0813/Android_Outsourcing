@@ -20,6 +20,15 @@
     <color name="colorWhiteOrange">#ff8000</color>
     <color name="colorYellow">#ffff00</color>
     <color name="colorWhiteGreen">#bfff00</color>
+    <color name="colorOrange">#FF6F29</color>
+    <color name="colorGrayEE">#EEEEEE</color>
+    <color name="colorGrayD4">#D4D4D4</color>
+    <color name="colorGrayD3">#D3D3D3</color>
+    <color name="colorGray62">#626262</color>
+    <color name="colorGray45">#454545</color>
+    <color name="colorGray51">#515151</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorRed36">#FF3636</color>
 
     <color name="today">#FF4081</color>
     <color name="greyed_out">#c7c7c7</color>

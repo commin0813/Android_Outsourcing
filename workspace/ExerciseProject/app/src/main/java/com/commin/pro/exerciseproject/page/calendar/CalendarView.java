@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.commin.pro.exerciseproject.R;
+import com.commin.pro.exerciseproject.dao.Dao2Excercise;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class CalendarView extends LinearLayout {
 
     int[] monthSeason = new int[]{2, 2, 3, 3, 3, 0, 0, 0, 1, 1, 1, 2};
 
-    public static Calendar getCalendarInstance(){
+    public static Calendar getCalendarInstance() {
         return currentDate;
     }
 
@@ -153,7 +154,16 @@ public class CalendarView extends LinearLayout {
     }
 
     public void updateCalendar() {
-        updateCalendar(null);
+        HashSet<Date> events = new HashSet<>();
+        if (!Dao2Excercise.getHashMap().isEmpty()) {
+            for (Date date : Dao2Excercise.getHashMap().keySet()) {
+                events.add(date);
+            }
+            updateCalendar(events);
+        } else {
+            updateCalendar(null);
+        }
+
     }
 
 

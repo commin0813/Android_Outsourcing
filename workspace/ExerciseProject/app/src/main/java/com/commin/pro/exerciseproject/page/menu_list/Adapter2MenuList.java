@@ -3,6 +3,7 @@ package com.commin.pro.exerciseproject.page.menu_list;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,6 @@ import java.util.ArrayList;
 public class Adapter2MenuList extends ArrayAdapter<Model2Menu> {
     private ArrayList<Model2Menu> items;
     private Context context;
-    private Handler handler=new Handler();
 
 
     public Adapter2MenuList(Context context, int resource, ArrayList<Model2Menu> items) {
@@ -42,9 +42,7 @@ public class Adapter2MenuList extends ArrayAdapter<Model2Menu> {
         final ImageView imageView = (ImageView) view.findViewById(R.id.iv_icon_item);
 
         textView.setText(model.getMenu_text());
-
         imageView.setImageDrawable(model.getIcon());
-
 
         return view;
     }

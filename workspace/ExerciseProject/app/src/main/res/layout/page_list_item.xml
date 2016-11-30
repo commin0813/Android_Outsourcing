@@ -22,8 +22,7 @@
                 android:id="@+id/iv_icon_item"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:background="@drawable/camera"
-                android:padding="30dp" />
+                             />
 
         </LinearLayout>
 

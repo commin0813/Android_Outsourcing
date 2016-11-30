@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.commin.pro.exerciseproject.ApplicationProperty;
 import com.commin.pro.exerciseproject.R;
+import com.commin.pro.exerciseproject.dao.Dao2Excercise;
 import com.commin.pro.exerciseproject.page.calendar_view.Page2CalendarView;
 import com.commin.pro.exerciseproject.util.UtilDialog;
 
@@ -26,17 +27,12 @@ public class Page2Calendar extends AppCompatActivity {
     }
 
     private void createGUI() {
-        HashSet<Date> events = new HashSet<>();
-        events.add(new Date());
-
         CalendarView cv = ((CalendarView) findViewById(R.id.calendar_view));
-        cv.updateCalendar(events);
-
         cv.setEventHandler(new CalendarView.EventHandler() {
             @Override
             public void onDayLongPress(Date date) {
                 DateFormat df = SimpleDateFormat.getDateInstance();
-                UtilDialog.showToast(Page2Calendar.this,df.format(date));
+                UtilDialog.showToast(Page2Calendar.this, df.format(date));
             }
 
             @Override

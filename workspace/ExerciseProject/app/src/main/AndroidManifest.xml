@@ -28,7 +28,7 @@
         <activity android:name=".page.menu_list.Page2MenuList" />
         <activity android:name=".page.photo.Page2Photo" />
         <activity android:name=".page.do_excercise_expert.Page2DoExcerciseExpert" />
-        <activity android:name=".photo_edit.Page2PhotoEdit"></activity>
+        <activity android:name=".page.photo_edit.Page2PhotoEdit"></activity>
     </application>
 
 </manifest>

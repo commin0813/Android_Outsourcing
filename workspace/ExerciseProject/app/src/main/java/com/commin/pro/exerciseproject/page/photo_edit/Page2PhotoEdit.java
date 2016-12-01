@@ -1,4 +1,4 @@
-package com.commin.pro.exerciseproject.photo_edit;
+package com.commin.pro.exerciseproject.page.photo_edit;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

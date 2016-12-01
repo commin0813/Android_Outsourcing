@@ -108,12 +108,6 @@ public class UtilImage {
         return BitmapFactory.decodeFile(imgFilePath, options);
     }
 
-    /**
-     * 지정한 패스의 파일의 EXIF 정보를 읽어서 회전시킬 각도 구하기
-     *
-     * @param imgFilePath bitmap file path
-     * @return degree
-     */
     public synchronized static int getExifOrientation(String filepath) {
         int degree = 0;
         ExifInterface exif = null;
@@ -210,6 +204,16 @@ public class UtilImage {
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap_3.compress(Bitmap.CompressFormat.PNG, image_quality, byteArrayOutputStream); //저장된이미지를 jpeg로 포맷 품질100으로하여 출력
+        byte[] image_byte_array = byteArrayOutputStream.toByteArray();//compress 로 bitmap을 byte[] 로만들어서 String 으로 저장
+
+        String imageCode = Base64.encodeToString(image_byte_array, Base64.NO_WRAP);
+
+        return imageCode;
+    }
+
+    public static String getImageCode(Context context, Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, image_quality, byteArrayOutputStream); //저장된이미지를 jpeg로 포맷 품질100으로하여 출력
         byte[] image_byte_array = byteArrayOutputStream.toByteArray();//compress 로 bitmap을 byte[] 로만들어서 String 으로 저장
 
         String imageCode = Base64.encodeToString(image_byte_array, Base64.NO_WRAP);

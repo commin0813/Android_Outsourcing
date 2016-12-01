@@ -1,5 +1,7 @@
 package com.commin.pro.exerciseproject.model;
 
+import android.graphics.Bitmap;
+
 import com.commin.pro.exerciseproject.dao.Dao2Excercise;
 import com.commin.pro.exerciseproject.page.menu_list.Page2MenuList;
 
@@ -10,9 +12,10 @@ import java.util.HashMap;
 /**
  * Created by user on 2016-11-28.
  */
-public class Model2Excercise implements Serializable{
+public class Model2Excercise implements Serializable {
     private Date date;
-    private HashMap<String,Boolean> check;
+    private HashMap<String, Boolean> check;
+    private String user_photo_path;
     private boolean isBeginner;
 
 
@@ -40,18 +43,28 @@ public class Model2Excercise implements Serializable{
         isBeginner = beginner;
     }
 
-    public static Model2Excercise getModel(Date date){
-        HashMap<Date,Model2Excercise> map = Dao2Excercise.getHashMap();
-        Model2Excercise model=null;
-        for(Date d : map.keySet()){
+    public String getUser_photo_path() {
+        return user_photo_path;
+    }
+
+    public void setUser_photo_path(String user_photo_path) {
+        this.user_photo_path = user_photo_path;
+    }
+
+    public static Model2Excercise getModel(Date date) {
+        HashMap<Date, Model2Excercise> map = Dao2Excercise.getHashMap();
+        Model2Excercise model = null;
+        for (Date d : map.keySet()) {
             if (d.getYear() == date.getYear()//
                     && d.getMonth() == date.getMonth()//
                     && d.getDay() == date.getDay()) //
             {
-               return map.get(d);
+                return map.get(d);
             }
         }
 
         return null;
     }
+
+
 }

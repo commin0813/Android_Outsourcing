@@ -17,6 +17,9 @@ public class ApplicationProperty {
     public static final int RESULT_CODE_FOR_EXCERCIZE_EXPERT=1325;
     public static final int REQUEST_CODE_FOR_EXCERCIZE_EXPERT=1326;
 
+    public static final int REQUEST_CODE_FOR_PHOTO_EDIT=1328;
+    public static final int RESULT_CODE_FOR_PHOTO_EDIT=1329;
+
     public static final int PICK_FROM_CAMERA = 101;
     public static final int PICK_FROM_GALLERY = 102;
 

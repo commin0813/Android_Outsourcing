@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,9 +20,9 @@ import com.commin.pro.exerciseproject.ApplicationProperty;
 import com.commin.pro.exerciseproject.R;
 import com.commin.pro.exerciseproject.dao.Dao2Excercise;
 import com.commin.pro.exerciseproject.model.Model2Excercise;
+import com.commin.pro.exerciseproject.page.photo_edit.Page2PhotoEdit;
 import com.commin.pro.exerciseproject.util.UtilDialog;
 import com.commin.pro.exerciseproject.util.UtilImage;
-import com.commin.pro.exerciseproject.util.UtilText;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +35,10 @@ public class Page2Photo extends AppCompatActivity {
     private Spinner sp_event_date_selector;
     private ArrayList<String> items;
     private SimpleDateFormat df = new SimpleDateFormat("MM월 dd일");
-    private String image_path = "";
+    private String user_photo_path = "";
+    private Bitmap user_photo = null;
+    private Date selected_date = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,18 +79,38 @@ public class Page2Photo extends AppCompatActivity {
         btn_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (sp_event_date_selector.getSelectedItemPosition() == 0) {
+                    UtilDialog.showToast(Page2Photo.this,"먼저 운동한 날을 선택 하세요");
+                    return;
+                }
                 playCameraOrGallery(view);
             }
         });
         btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (sp_event_date_selector.getSelectedItemPosition() == 0) {
+                    UtilDialog.showToast(Page2Photo.this,"먼저 운동한 날을 선택 하세요");
+                    return;
+                }
+
+                Model2Excercise model = new Model2Excercise();
+                model.setUser_photo_path(user_photo_path);
+                model.setDate(selected_date);
+                Intent intent = new Intent(Page2Photo.this, Page2PhotoEdit.class);
+                intent.putExtra("Model2Excercise", model);
+                startActivityForResult(intent, ApplicationProperty.REQUEST_CODE_FOR_PHOTO_EDIT);
 
             }
         });
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (sp_event_date_selector.getSelectedItemPosition() == 0) {
+                    UtilDialog.showToast(Page2Photo.this,"먼저 운동한 날을 선택 하세요");
+                    return;
+                }
+
 
             }
         });
@@ -96,13 +118,14 @@ public class Page2Photo extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapter, View view, int position, long l) {
                 if (items.get(position).equals(getResources().getString(R.string.sp_title))) {
-
+                    selected_date = null;
                     return;
                 }
                 Date date = Dao2Excercise.queryDate(items.get(position), df);
                 if (date == null) {
                     return;
                 }
+                selected_date = date;
                 UtilDialog.showToast(Page2Photo.this, df.format(date));
             }
 
@@ -140,22 +163,30 @@ public class Page2Photo extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (resultCode == ApplicationProperty.RESULT_CODE_FOR_PHOTO_EDIT) {
+            UtilDialog.showToast(Page2Photo.this, "edit complete");
+
+            return;
+        }
+
+
         if (resultCode == RESULT_OK) {
 
             Uri uri_datas = intent.getData();
 
             if (uri_datas != null) {
-                image_path = getPath(uri_datas);
-                int degree = UtilImage.getExifOrientation(image_path);
-                Bitmap user_image = null;
-                user_image = UtilImage.getBitmap(image_path, 0, 0, false);
-                user_image = UtilImage.getRotatedBitmap(user_image, degree);
+                user_photo_path = getPath(uri_datas);
+                int degree = UtilImage.getExifOrientation(user_photo_path);
 
-                if (user_image != null) {
-                    iv_photo_user_image.setImageBitmap(user_image);
+                user_photo = UtilImage.getBitmap(user_photo_path, 0, 0, false);
+                user_photo = UtilImage.getRotatedBitmap(user_photo, degree);
+
+                if (user_photo != null) {
+                    iv_photo_user_image.setImageBitmap(user_photo);
+
 
                 } else {
-                    UtilDialog.openError(Page2Photo.this, UtilText.getText(Page2Photo.this, R.string.load_image_file_fail), new DialogInterface.OnClickListener() {
+                    UtilDialog.openError(Page2Photo.this, getResources().getString(R.string.load_image_file_fail), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                         }

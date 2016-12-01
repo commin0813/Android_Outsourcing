@@ -1,4 +1,4 @@
-package com.commin.pro.exerciseproject.page.photo_edit;
+package com.commin.pro.exerciseproject.photo_edit;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +10,6 @@ public class Page2PhotoEdit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.page_photo_edit_layout);
+        setContentView(R.layout.layout_page_photo_edit);
     }
 }

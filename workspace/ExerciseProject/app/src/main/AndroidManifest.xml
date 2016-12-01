@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.commin.pro.exerciseproject">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,14 +20,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".page.calendar.Page2Calendar"></activity>
-        <activity android:name=".page.calendar_view.Page2CalendarView"></activity>
-        <activity android:name=".page.do_excercise_beginner.Page2DoExcerciseBegin"></activity>
-        <activity android:name=".page.game.Page2Game"></activity>
-        <activity android:name=".page.level.Page2Level"></activity>
-        <activity android:name=".page.menu_list.Page2MenuList"></activity>
-        <activity android:name=".page.photo_edit.Page2PhotoEdit"></activity>
-        <activity android:name=".page.do_excercise_expert.Page2DoExcerciseExpert"></activity>
+        <activity android:name=".page.calendar.Page2Calendar" />
+        <activity android:name=".page.calendar_view.Page2CalendarView" />
+        <activity android:name=".page.do_excercise_beginner.Page2DoExcerciseBegin" />
+        <activity android:name=".page.game.Page2Game" />
+        <activity android:name=".page.level.Page2Level" />
+        <activity android:name=".page.menu_list.Page2MenuList" />
+        <activity android:name=".page.photo.Page2Photo" />
+        <activity android:name=".page.do_excercise_expert.Page2DoExcerciseExpert" />
+        <activity android:name=".photo_edit.Page2PhotoEdit"></activity>
     </application>
 
 </manifest>

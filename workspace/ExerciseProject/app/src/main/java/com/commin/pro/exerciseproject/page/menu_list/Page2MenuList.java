@@ -19,13 +19,12 @@ import com.commin.pro.exerciseproject.page.calendar.Page2Calendar;
 import com.commin.pro.exerciseproject.page.do_excercise_beginner.Page2DoExcerciseBegin;
 import com.commin.pro.exerciseproject.page.do_excercise_expert.Page2DoExcerciseExpert;
 import com.commin.pro.exerciseproject.page.game.Page2Game;
-import com.commin.pro.exerciseproject.page.photo_edit.Page2PhotoEdit;
+import com.commin.pro.exerciseproject.page.photo.Page2Photo;
 import com.commin.pro.exerciseproject.util.UtilCustomDialog;
 import com.commin.pro.exerciseproject.util.UtilDialog;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Page2MenuList extends AppCompatActivity {
@@ -102,7 +101,7 @@ public class Page2MenuList extends AppCompatActivity {
                         break;
                     }
                     case ITEM_SELECT_PHOTO: {
-                        startActivity(new Intent(Page2MenuList.this, Page2PhotoEdit.class));
+                        startActivity(new Intent(Page2MenuList.this, Page2Photo.class));
                         break;
                     }
 
@@ -144,14 +143,22 @@ public class Page2MenuList extends AppCompatActivity {
                     && date.getMonth() == model.getDate().getMonth()//
                     && date.getDay() == model.getDate().getDay()) //
             {
-                if (Dao2Excercise.getHashMap().get(date).isBeginner() == model.isBeginner()) {//need update
-                    Dao2Excercise.updateModel(date, model);
-                    Log.d(LOG_TAG, "complete updateModel in second if \n" + model.getCheck() + "---" + model.getDate() + "----" + model.isBeginner());
-                } else {//need insert
-                    Dao2Excercise.insertModel(model);
-                    Log.d(LOG_TAG, "complete insertModel in third if \n" + model.getCheck() + "---" + model.getDate() + "----" + model.isBeginner());
-                }
-                HashMap<Date, Model2Excercise> moddd = Dao2Excercise.getHashMap();
+
+                Dao2Excercise.updateModel(date, model);
+                Log.d(LOG_TAG, "complete updateModel in second if \n" + model.getCheck() + "---" + model.getDate() + "----" + model.isBeginner());
+
+                //이부분은 고급자코스와 초급자코스 뷰가 구별되어야하는데, 저희 거래내용상 그런내용은 없어서 뺐습니다.
+                //추후에 필요하시다면 수정하시면 됩니다.
+                //현재는 초급자로 운동하기를 등록해놨어도 고급자 운동하기를 등록하면 덮어씌워지게됩니다.
+
+//                if (Dao2Excercise.getHashMap().get(date).isBeginner() == model.isBeginner()) {//need update
+//                    Dao2Excercise.updateModel(date, model);
+//                    Log.d(LOG_TAG, "complete updateModel in second if \n" + model.getCheck() + "---" + model.getDate() + "----" + model.isBeginner());
+//                } else {//need insert
+//                    Dao2Excercise.insertModel(model);
+//                    Log.d(LOG_TAG, "complete insertModel in third if \n" + model.getCheck() + "---" + model.getDate() + "----" + model.isBeginner());
+//                }
+
                 return;
             }
         }

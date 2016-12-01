@@ -5,15 +5,20 @@ package com.commin.pro.exerciseproject;
  */
 public class ApplicationProperty {
     //Code
-    public static  final int MY_PERMISSIONS_REQUEST_CAMERA = 100223;
+    public static  final int MY_PERMISSIONS_REQUEST_CAMERA = 101;
+    public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 105;
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 106;
 
-    public static final int REQUEST_CODE_FOR_CALENDAR_VIEW=34534;
+    public static final int REQUEST_CODE_FOR_CALENDAR_VIEW=3534;
 
-    public static final int RESULT_CODE_FOR_EXCERCIZE_BEGINNER=12321;
-    public static final int REQUEST_CODE_FOR_EXCERCIZE_BEGINNER=12322;
+    public static final int RESULT_CODE_FOR_EXCERCIZE_BEGINNER=1231;
+    public static final int REQUEST_CODE_FOR_EXCERCIZE_BEGINNER=1232;
 
-    public static final int RESULT_CODE_FOR_EXCERCIZE_EXPERT=12325;
-    public static final int REQUEST_CODE_FOR_EXCERCIZE_EXPERT=12326;
+    public static final int RESULT_CODE_FOR_EXCERCIZE_EXPERT=1325;
+    public static final int REQUEST_CODE_FOR_EXCERCIZE_EXPERT=1326;
+
+    public static final int PICK_FROM_CAMERA = 101;
+    public static final int PICK_FROM_GALLERY = 102;
 
 
     //HashMap Key

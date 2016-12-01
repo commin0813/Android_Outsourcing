@@ -9,6 +9,7 @@ import android.widget.*;
 
 
 import com.commin.pro.exerciseproject.R;
+import com.commin.pro.exerciseproject.model.Model2Excercise;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,10 +50,15 @@ public class Adapter2Calendar extends ArrayAdapter<Date> {
         view.setBackgroundResource(0);
         if (eventDays != null) {
             for (Date eventDate : eventDays) {
+               final Model2Excercise model =Model2Excercise.getModel(eventDate);
                 if (eventDate.getDate() == day &&
                         eventDate.getMonth() == month &&
                         eventDate.getYear() == year) {
-                    view.setBackgroundResource(R.drawable.reminder);
+                    if(model.isBeginner()){
+                        view.setBackgroundResource(R.drawable.marker_yellow);
+                    }else{
+                        view.setBackgroundResource(R.drawable.marker_red);
+                    }
                     break;
                 }
             }

@@ -140,13 +140,6 @@ public class CalendarView extends LinearLayout {
                 }
 
                 Date clicked_date = (Date) adapter.getItemAtPosition(position);
-//                Date[] dates = new Date[1000];
-//                HashSet<Date> events = new HashSet<>();
-//                for (int i = 0; i < 5; i++) {
-//                    events.add((Date) adapter.getItemAtPosition(position - i));
-//                }
-
-//                events.add(clicked_date);
                 eventHandler.onDayClick(clicked_date);
                 updateCalendar();
                 return;

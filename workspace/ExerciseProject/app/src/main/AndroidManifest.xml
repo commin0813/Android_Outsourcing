@@ -24,7 +24,7 @@
         <activity android:name=".page.calendar_view.Page2CalendarView" />
         <activity android:name=".page.do_excercise_beginner.Page2DoExcerciseBegin" />
         <activity android:name=".page.game.Page2Game" />
-        <activity android:name=".page.level.Page2Level" />
+
         <activity android:name=".page.menu_list.Page2MenuList" />
         <activity android:name=".page.photo.Page2Photo" />
         <activity android:name=".page.do_excercise_expert.Page2DoExcerciseExpert" />

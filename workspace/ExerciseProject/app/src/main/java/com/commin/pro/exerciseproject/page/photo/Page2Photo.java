@@ -145,7 +145,7 @@ public class Page2Photo extends AppCompatActivity {
         Model2Excercise model = Dao2Excercise.getHashMap().get(date);
         selected_date = date;
         String imsi = model.getUser_photo_path();
-        if(imsi ==null){
+        if(imsi == null){
             UtilDialog.showToast(Page2Photo.this,"선택한날은 사진이 없습니다.");
             user_photo_path = null;
             iv_photo_user_image.setImageDrawable(null);

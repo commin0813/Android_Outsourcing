@@ -1,5 +1,7 @@
 package com.commin.pro.exerciseproject.page.calendar_view;
 
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 import com.commin.pro.exerciseproject.ApplicationProperty;
 import com.commin.pro.exerciseproject.R;
 import com.commin.pro.exerciseproject.model.Model2Excercise;
+import com.commin.pro.exerciseproject.util.UtilDialog;
+import com.commin.pro.exerciseproject.util.UtilImage;
 
 import java.util.Date;
 
@@ -51,7 +55,7 @@ public class Page2CalendarView extends AppCompatActivity {
         check_view_third = (CheckBox) findViewById(R.id.check_view_third);
 
         iv_calendar_user_image = (ImageView) findViewById(R.id.iv_calendar_user_image);
-
+        iv_calendar_user_image.setScaleType(ImageView.ScaleType.FIT_XY);
         btn_back = (Button) findViewById(R.id.btn_back);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +76,23 @@ public class Page2CalendarView extends AppCompatActivity {
         check_view_fisrt.setChecked(Boolean.valueOf(model.getCheck().get(ApplicationProperty.FIRST_CHECK)));
         check_view_second.setChecked(Boolean.valueOf(model.getCheck().get(ApplicationProperty.SECOND_CHECK)));
         check_view_third.setChecked(Boolean.valueOf(model.getCheck().get(ApplicationProperty.THIRD_CHECK)));
+
+        if(model.getUser_photo_path() != null){
+            int degree = UtilImage.getExifOrientation(model.getUser_photo_path());
+            Bitmap user_photo = null;
+            user_photo = UtilImage.getBitmap(model.getUser_photo_path(), 0, 0, false);
+            user_photo = UtilImage.getRotatedBitmap(user_photo, degree);
+
+            if (user_photo != null) {
+                iv_calendar_user_image.setImageBitmap(user_photo);
+            } else {
+                UtilDialog.openError(Page2CalendarView.this, getResources().getString(R.string.load_image_file_fail), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+            }
+        }
 
     }
 }

@@ -45,6 +45,12 @@ public class Page2Calendar extends AppCompatActivity {
                     UtilDialog.showToast(Page2Calendar.this,"운동한 기록이 없습니다.");
                     return;
                 }
+                DateFormat df = SimpleDateFormat.getDateInstance();
+                if(!df.format(model.getDate()).equals(df.format(date))){
+                    UtilDialog.showToast(Page2Calendar.this,"운동한 기록이 없습니다.");
+                    return;
+                }
+
                 Intent intent = new Intent(Page2Calendar.this, Page2CalendarView.class);
                 intent.putExtra("Model2Excercise", model);
                 startActivityForResult(intent, ApplicationProperty.REQUEST_CODE_FOR_CALENDAR_VIEW);

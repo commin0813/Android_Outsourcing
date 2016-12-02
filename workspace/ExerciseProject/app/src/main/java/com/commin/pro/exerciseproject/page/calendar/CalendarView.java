@@ -36,6 +36,7 @@ public class CalendarView extends LinearLayout {
     private LinearLayout header;
     private ImageView btn_prev;
     private ImageView btn_next;
+
     private TextView tv_date;
     private GridView grid;
 

@@ -106,12 +106,18 @@ public class Page2Photo extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (sp_event_date_selector.getSelectedItemPosition() == 0) {
+                if (sp_event_date_selector.getSelectedItemPosition() == 0 && selected_date==null) {
                     UtilDialog.showToast(Page2Photo.this,"먼저 운동한 날을 선택 하세요");
                     return;
                 }
-
-
+                if(user_photo_path ==null){
+                    UtilDialog.showToast(Page2Photo.this,"사진을 찍으세요.");
+                }
+                Model2Excercise model = Dao2Excercise.getHashMap().get(selected_date);
+                model.setUser_photo_path(user_photo_path);
+                Dao2Excercise.updateModel(selected_date,model);
+                UtilDialog.showToast(Page2Photo.this,"업로드 완료");
+                finish();
             }
         });
         sp_event_date_selector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -125,17 +131,47 @@ public class Page2Photo extends AppCompatActivity {
                 if (date == null) {
                     return;
                 }
-                selected_date = date;
-                UtilDialog.showToast(Page2Photo.this, df.format(date));
+                changeImage(date);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 
     }
+
+    private void changeImage(Date date){
+        Model2Excercise model = Dao2Excercise.getHashMap().get(date);
+        selected_date = date;
+        String imsi = model.getUser_photo_path();
+        if(imsi ==null){
+            UtilDialog.showToast(Page2Photo.this,"선택한날은 사진이 없습니다.");
+            user_photo_path = null;
+            iv_photo_user_image.setImageDrawable(null);
+            return;
+        }
+
+        user_photo_path = imsi;
+
+        int degree = UtilImage.getExifOrientation(user_photo_path);
+
+        user_photo = UtilImage.getBitmap(user_photo_path, 0, 0, false);
+        user_photo = UtilImage.getRotatedBitmap(user_photo, degree);
+
+        if (user_photo != null) {
+            UtilDialog.showToast(Page2Photo.this,"사진을 불러왔습니다.");
+            iv_photo_user_image.setImageBitmap(user_photo);
+        } else {
+            UtilDialog.openError(Page2Photo.this, getResources().getString(R.string.load_image_file_fail), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+        }
+
+    }
+
 
     private void playCameraOrGallery(View view) {
         Intent intent = null;

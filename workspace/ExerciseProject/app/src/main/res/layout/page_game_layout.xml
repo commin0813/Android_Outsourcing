@@ -8,15 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/ll_container"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:orientation="vertical">
 
-
-        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_game_title"
@@ -26,18 +18,16 @@
             android:ellipsize="marquee"
             android:focusable="true"
             android:singleLine="true"
-            android:text="화면을 연타 하시면 게이지가 차오릅니다. 끝까지 차면 자동으로 종료합니다."
+            android:text="화면을 연타 하시면 게이지가 줄어듭니다. 다줄어들면 다시 생깁니다. 계속 때리세요"
             android:textSize="30sp" />
 
         <LinearLayout
+            android:id="@+id/ll_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
-            <View
-                android:id="@+id/view_screen"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
 
         </LinearLayout>
 

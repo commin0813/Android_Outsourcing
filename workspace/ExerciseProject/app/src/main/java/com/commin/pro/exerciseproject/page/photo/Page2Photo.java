@@ -1,12 +1,16 @@
 package com.commin.pro.exerciseproject.page.photo;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -44,13 +48,28 @@ public class Page2Photo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_photo_layout);
         createGUI();
-
+        getPermission();
     }
+    private void getPermission(){
+        if (ContextCompat.checkSelfPermission(Page2Photo.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(Page2Photo.this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            } else {
+                ActivityCompat.requestPermissions(Page2Photo.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ApplicationProperty.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+            }
+        }
+    }
+
+
 
     private void createGUI() {
         init_elements();
         init_spinner();
         init_click_handler();
+
     }
 
     private void init_elements() {
@@ -243,5 +262,39 @@ public class Page2Photo extends AppCompatActivity {
         return cursor.getString(column_index);
     }
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        switch (requestCode) {
+            case ApplicationProperty.MY_PERMISSIONS_REQUEST_CAMERA: {//CAMERA
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+
+                }
+                return;
+            }
+
+            case ApplicationProperty.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+
+                }
+                return;
+            }
+            case ApplicationProperty.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+
+                }
+                return;
+            }
+
+
+        }
+    }
 
 }

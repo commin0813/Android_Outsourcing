@@ -16,13 +16,14 @@ import com.commin.pro.exerciseproject.model.Model2Excercise;
 import com.commin.pro.exerciseproject.util.UtilDialog;
 import com.commin.pro.exerciseproject.util.UtilImage;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Page2CalendarView extends AppCompatActivity {
 
     private static final String LOG_TAG = "Page2CalendarView";
 
-    private TextView tv_calendar_view_level, tv_calendar_view_count_1, tv_calendar_view_count_2, tv_calendar_view_count_3;
+    private TextView tv_calendar_view_the_date, tv_calendar_view_level, tv_calendar_view_count_1, tv_calendar_view_count_2, tv_calendar_view_count_3;
     private CheckBox check_view_fisrt, check_view_second, check_view_third;
     private ImageView iv_calendar_user_image;
     private Button btn_back;
@@ -44,7 +45,9 @@ public class Page2CalendarView extends AppCompatActivity {
 
     private void init_elements() {
         model =(Model2Excercise) getIntent().getSerializableExtra("Model2Excercise");
-
+        tv_calendar_view_the_date = (TextView)findViewById(R.id.tv_calendar_view_the_date);
+        SimpleDateFormat df = new SimpleDateFormat("MM월 dd일");
+        tv_calendar_view_the_date.setText(df.format(model.getDate()));
         tv_calendar_view_level = (TextView) findViewById(R.id.tv_calendar_view_level);
         tv_calendar_view_count_1 = (TextView) findViewById(R.id.tv_calendar_view_count_1);
         tv_calendar_view_count_2 = (TextView) findViewById(R.id.tv_calendar_view_count_2);

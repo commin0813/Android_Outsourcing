@@ -50,7 +50,8 @@ public class Page2Photo extends AppCompatActivity {
         createGUI();
         getPermission();
     }
-    private void getPermission(){
+
+    private void getPermission() {
         if (ContextCompat.checkSelfPermission(Page2Photo.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -62,7 +63,6 @@ public class Page2Photo extends AppCompatActivity {
             }
         }
     }
-
 
 
     private void createGUI() {
@@ -99,7 +99,7 @@ public class Page2Photo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (sp_event_date_selector.getSelectedItemPosition() == 0) {
-                    UtilDialog.showToast(Page2Photo.this,"먼저 운동한 날을 선택 하세요");
+                    UtilDialog.showToast(Page2Photo.this, "먼저 운동한 날을 선택 하세요");
                     return;
                 }
                 playCameraOrGallery(view);
@@ -109,7 +109,7 @@ public class Page2Photo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (sp_event_date_selector.getSelectedItemPosition() == 0) {
-                    UtilDialog.showToast(Page2Photo.this,"먼저 운동한 날을 선택 하세요");
+                    UtilDialog.showToast(Page2Photo.this, "먼저 운동한 날을 선택 하세요");
                     return;
                 }
 
@@ -125,17 +125,17 @@ public class Page2Photo extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (sp_event_date_selector.getSelectedItemPosition() == 0 && selected_date==null) {
-                    UtilDialog.showToast(Page2Photo.this,"먼저 운동한 날을 선택 하세요");
+                if (sp_event_date_selector.getSelectedItemPosition() == 0 && selected_date == null) {
+                    UtilDialog.showToast(Page2Photo.this, "먼저 운동한 날을 선택 하세요");
                     return;
                 }
-                if(user_photo_path ==null){
-                    UtilDialog.showToast(Page2Photo.this,"사진을 찍으세요.");
+                if (user_photo_path == null) {
+                    UtilDialog.showToast(Page2Photo.this, "사진을 찍으세요.");
                 }
                 Model2Excercise model = Dao2Excercise.getHashMap().get(selected_date);
                 model.setUser_photo_path(user_photo_path);
-                Dao2Excercise.updateModel(selected_date,model);
-                UtilDialog.showToast(Page2Photo.this,"업로드 완료");
+                Dao2Excercise.updateModel(selected_date, model);
+                UtilDialog.showToast(Page2Photo.this, "업로드 완료");
                 finish();
             }
         });
@@ -160,26 +160,20 @@ public class Page2Photo extends AppCompatActivity {
 
     }
 
-    private void changeImage(Date date){
+    private void changeImage(Date date) {
         Model2Excercise model = Dao2Excercise.getHashMap().get(date);
         selected_date = date;
         String imsi = model.getUser_photo_path();
-        if(imsi == null){
-            UtilDialog.showToast(Page2Photo.this,"선택한날은 사진이 없습니다.");
+        if (imsi == null) {
+            UtilDialog.showToast(Page2Photo.this, "선택한날은 사진이 없습니다.");
             user_photo_path = null;
             iv_photo_user_image.setImageDrawable(null);
             return;
         }
-
-        user_photo_path = imsi;
-
-        int degree = UtilImage.getExifOrientation(user_photo_path);
-
-        user_photo = UtilImage.getBitmap(user_photo_path, 0, 0, false);
-        user_photo = UtilImage.getRotatedBitmap(user_photo, degree);
+        setImageSource(imsi);
 
         if (user_photo != null) {
-            UtilDialog.showToast(Page2Photo.this,"사진을 불러왔습니다.");
+            UtilDialog.showToast(Page2Photo.this, "사진을 불러왔습니다.");
             iv_photo_user_image.setImageBitmap(user_photo);
         } else {
             UtilDialog.openError(Page2Photo.this, getResources().getString(R.string.load_image_file_fail), new DialogInterface.OnClickListener() {
@@ -189,6 +183,11 @@ public class Page2Photo extends AppCompatActivity {
             });
         }
 
+    }
+
+    private void setImageSource(String image_path){
+        user_photo_path = image_path;
+        user_photo = UtilImage.getBitmap(user_photo_path);
     }
 
 
@@ -220,7 +219,20 @@ public class Page2Photo extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (resultCode == ApplicationProperty.RESULT_CODE_FOR_PHOTO_EDIT) {
             UtilDialog.showToast(Page2Photo.this, "edit complete");
+            Model2Excercise model = (Model2Excercise) intent.getSerializableExtra("Model2Excercise");
+            model.getDate();
+            setImageSource( model.getUser_photo_path());
 
+            if (user_photo != null) {
+                UtilDialog.showToast(Page2Photo.this, "사진을 불러왔습니다.");
+                iv_photo_user_image.setImageBitmap(user_photo);
+            } else {
+                UtilDialog.openError(Page2Photo.this, getResources().getString(R.string.load_image_file_fail), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+            }
             return;
         }
 
@@ -231,15 +243,14 @@ public class Page2Photo extends AppCompatActivity {
 
             if (uri_datas != null) {
                 user_photo_path = getPath(uri_datas);
-                int degree = UtilImage.getExifOrientation(user_photo_path);
 
-                user_photo = UtilImage.getBitmap(user_photo_path, 0, 0, false);
+                int degree = UtilImage.getExifOrientation(user_photo_path);
+                user_photo = UtilImage.getBitmap(user_photo_path, 500, 500, false);
                 user_photo = UtilImage.getRotatedBitmap(user_photo, degree);
 
                 if (user_photo != null) {
+                    user_photo_path = UtilImage.getImageCode(Page2Photo.this, user_photo);
                     iv_photo_user_image.setImageBitmap(user_photo);
-
-
                 } else {
                     UtilDialog.openError(Page2Photo.this, getResources().getString(R.string.load_image_file_fail), new DialogInterface.OnClickListener() {
                         @Override

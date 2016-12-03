@@ -29,4 +29,10 @@ public class ApplicationProperty {
     public static final String SECOND_CHECK="secondcheck";
     public static final String THIRD_CHECK="thirdcheck";
 
+    //EditPhoto SWITCH CODE
+
+    public static final int SAVE_BITMAP = 11333;
+    public static final int ADD_TEXT = 11444;
+    public static final int DRAW_LINE = 11555;
+
 }

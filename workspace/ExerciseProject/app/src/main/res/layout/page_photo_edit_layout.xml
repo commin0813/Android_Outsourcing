@@ -26,16 +26,14 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_edit_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/colorDarkBlue"
+        >
 
-        <ImageView
-            android:id="@+id/iv_photo_user_image_edit"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:drawable/ic_menu_gallery" />
 
     </LinearLayout>
 
@@ -46,7 +44,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
 

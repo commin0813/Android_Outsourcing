@@ -44,8 +44,8 @@ public class Page2CalendarView extends AppCompatActivity {
     }
 
     private void init_elements() {
-        model =(Model2Excercise) getIntent().getSerializableExtra("Model2Excercise");
-        tv_calendar_view_the_date = (TextView)findViewById(R.id.tv_calendar_view_the_date);
+        model = (Model2Excercise) getIntent().getSerializableExtra("Model2Excercise");
+        tv_calendar_view_the_date = (TextView) findViewById(R.id.tv_calendar_view_the_date);
         SimpleDateFormat df = new SimpleDateFormat("MM월 dd일");
         tv_calendar_view_the_date.setText(df.format(model.getDate()));
         tv_calendar_view_level = (TextView) findViewById(R.id.tv_calendar_view_level);
@@ -68,8 +68,8 @@ public class Page2CalendarView extends AppCompatActivity {
         });
     }
 
-    private void set_elements(){
-        if(!model.isBeginner()){
+    private void set_elements() {
+        if (!model.isBeginner()) {
             tv_calendar_view_level.setText("- 고급자코스");
             tv_calendar_view_count_1.setText("20");
             tv_calendar_view_count_2.setText("25");
@@ -80,11 +80,13 @@ public class Page2CalendarView extends AppCompatActivity {
         check_view_second.setChecked(Boolean.valueOf(model.getCheck().get(ApplicationProperty.SECOND_CHECK)));
         check_view_third.setChecked(Boolean.valueOf(model.getCheck().get(ApplicationProperty.THIRD_CHECK)));
 
-        if(model.getUser_photo_path() != null){
-            int degree = UtilImage.getExifOrientation(model.getUser_photo_path());
+        if (model.getUser_photo_path() != null) {
+//            int degree = UtilImage.getExifOrientation(model.getUser_photo_path());
             Bitmap user_photo = null;
-            user_photo = UtilImage.getBitmap(model.getUser_photo_path(), 0, 0, false);
-            user_photo = UtilImage.getRotatedBitmap(user_photo, degree);
+//            user_photo = UtilImage.getBitmap(model.getUser_photo_path(), 0, 0, false);
+//            user_photo = UtilImage.getRotatedBitmap(user_photo, degree);
+            user_photo = UtilImage.getBitmap(model.getUser_photo_path());
+
 
             if (user_photo != null) {
                 iv_calendar_user_image.setImageBitmap(user_photo);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,6 +44,8 @@ public class Page2PhotoEdit extends AppCompatActivity {
     public interface EditHandler {
         void onDrawText(String text);
 
+        void onDrawLine();
+
         void onSaveBitmap();
     }
 
@@ -54,21 +57,16 @@ public class Page2PhotoEdit extends AppCompatActivity {
 
         user_photo = UtilImage.getBitmap(user_photo_path);
 
-
-//        int degree = UtilImage.getExifOrientation(user_photo_path);
-//        user_photo = UtilImage.getBitmap(user_photo_path, 0, 0, false);
-
-
-        editView = new EditView(Page2PhotoEdit.this);
-
-        ll_edit_container = (LinearLayout) findViewById(R.id.ll_edit_container);
-        ll_edit_container.addView(editView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
         init_elements();
         init_click_handler();
     }
 
     private void init_elements() {
+        editView = new EditView(Page2PhotoEdit.this);
+
+        ll_edit_container = (LinearLayout) findViewById(R.id.ll_edit_container);
+        ll_edit_container.addView(editView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
         btn_save_edit = (Button) findViewById(R.id.btn_save_edit);
         btn_add_line = (Button) findViewById(R.id.btn_add_line);
         btn_add_text = (Button) findViewById(R.id.btn_add_text);
@@ -77,6 +75,7 @@ public class Page2PhotoEdit extends AppCompatActivity {
 
 
     private void init_click_handler() {
+
         btn_add_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,7 +97,8 @@ public class Page2PhotoEdit extends AppCompatActivity {
         btn_add_line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                UtilDialog.showToast(Page2PhotoEdit.this,"사진영역에 그림을 그리세요.");
+                editView.onDrawLine();
             }
         });
         btn_save_edit.setOnClickListener(new View.OnClickListener() {
@@ -119,4 +119,10 @@ public class Page2PhotoEdit extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        user_photo.recycle();
+
+    }
 }

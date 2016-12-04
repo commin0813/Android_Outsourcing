@@ -5,6 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Rect;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.commin.pro.exerciseproject.ApplicationProperty;
@@ -14,7 +17,9 @@ import com.commin.pro.exerciseproject.ApplicationProperty;
  */
 public class EditView extends View implements Page2PhotoEdit.EditHandler {
 
-    private Paint mPaint;
+    private Paint text_paint;
+    private Paint line_paint;
+    private Path path = new Path();
     private Bitmap bitmap;
 
     private Canvas c;
@@ -26,7 +31,13 @@ public class EditView extends View implements Page2PhotoEdit.EditHandler {
 
     public EditView(Context context) {
         super(context);
-        mPaint = new Paint();
+        text_paint = new Paint();
+        text_paint.setTextSize(50);
+        text_paint.setColor(Color.BLUE);
+        line_paint = new Paint();
+        line_paint.setStyle(Paint.Style.STROKE);
+        line_paint.setStrokeWidth(10f);
+        line_paint.setColor(Color.CYAN);
         this.bitmap = Page2PhotoEdit.user_photo;
 
 
@@ -39,17 +50,23 @@ public class EditView extends View implements Page2PhotoEdit.EditHandler {
     @Override
     protected void onDraw(Canvas canvas) {
 
-//        Bitmap copyBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-//        bitmap = copyBitmap;
-//        c = new Canvas(copyBitmap);
-//        mPaint.setStrokeWidth(100.0f);
-//        c.drawLine(10, 0, 500, 0, mPaint);
-
         Bitmap copyBitmap = null;
+
         copyBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+
+        Rect src = new Rect(0, 0, w, h);
+        Rect dst = new Rect(0, 0, getWidth(), getHeight());
 
         switch (code) {
             case ApplicationProperty.DRAW_LINE: {
+                copyBitmap = Page2PhotoEdit.user_photo.copy(Bitmap.Config.ARGB_8888, true);
+                bitmap = copyBitmap;
+                Canvas line_canvas = new Canvas(copyBitmap);
+
+                line_canvas.drawPath(path, line_paint);
                 break;
             }
             case ApplicationProperty.ADD_TEXT: {
@@ -57,9 +74,14 @@ public class EditView extends View implements Page2PhotoEdit.EditHandler {
                     copyBitmap = Page2PhotoEdit.user_photo.copy(Bitmap.Config.ARGB_8888, true);
                     bitmap = copyBitmap;
                     Canvas text_canvas = new Canvas(copyBitmap);
-                    mPaint.setTextSize(50);
-                    mPaint.setColor(Color.BLUE);
-                    text_canvas.drawText(text, 10, 50, mPaint);
+                    char[] word = text.toCharArray();
+                    String str = null;
+                    for (int i = 0; i < word.length; i++) {
+                        if (i % 9 == 0) {
+
+                        }
+                    }
+                    text_canvas.drawText(text, 10, 50, text_paint);
 
                 }
 
@@ -72,7 +94,7 @@ public class EditView extends View implements Page2PhotoEdit.EditHandler {
             return;
         }
 
-        canvas.drawBitmap(copyBitmap, getWidth() / 5, getHeight() / 5, new Paint());
+        canvas.drawBitmap(copyBitmap, src, dst, new Paint());
 
     }
 
@@ -89,16 +111,35 @@ public class EditView extends View implements Page2PhotoEdit.EditHandler {
         Page2PhotoEdit.user_photo = bitmap;
     }
 
+    @Override
+    public void onDrawLine() {
+        Page2PhotoEdit.user_photo = bitmap;
+        code = ApplicationProperty.DRAW_LINE;
+        invalidate();
+    }
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//
-//                invalidate();
-//                break;
-//        }
-//        return true;
-//
-//    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (code != ApplicationProperty.DRAW_LINE) {
+            return false;
+        }
+        float x = event.getX();
+        float y = event.getY();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                path.moveTo(x, y); // 자취에 그리지 말고 위치만 이동해라
+                break;
+            case MotionEvent.ACTION_MOVE:
+                path.lineTo(x, y); // 자취에 선을 그려라
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+        }
+        Page2PhotoEdit.user_photo = bitmap;
+        invalidate();
+        return true;
+
+    }
 }

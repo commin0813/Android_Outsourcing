@@ -25,11 +25,11 @@ import java.io.IOException;
  * Created by user on 2016-04-11.
  */
 public class UtilImage {
-    public final static int image_width = 600;
+    public final static int image_width = 650;
 
-    public final static int image_height = 400;
+    public final static int image_height = 450;
 
-    public final static int image_quality = 100;
+    public final static int image_quality = 70;
 
     /**
      * 비트맵의 모서리를 라운드 처리 한 후 Bitmap을 리턴
@@ -78,8 +78,8 @@ public class UtilImage {
         // 폰의 화면 사이즈를 구한다.
         Display display = ((WindowManager) context.getSystemService(
                 Context.WINDOW_SERVICE)).getDefaultDisplay();
-        int displayWidth = display.getWidth();
-        int displayHeight = display.getHeight();
+        int displayWidth = display.getWidth()/2;
+        int displayHeight = display.getHeight()/2;
 
         // 읽어들일 이미지의 사이즈를 구한다.
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -152,8 +152,8 @@ public class UtilImage {
     public synchronized static Bitmap getRotatedBitmap(Bitmap bitmap, int degrees) {
         if (degrees != 0 && bitmap != null) {
             Matrix m = new Matrix();
-            m.setRotate(degrees, (float) bitmap.getWidth() / 2,
-                    (float) bitmap.getHeight() / 2);
+            m.setRotate(degrees, (float) bitmap.getWidth(),
+                    (float) bitmap.getHeight() );
             try {
                 Bitmap b2 = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
                         bitmap.getHeight(), m, true);
@@ -186,6 +186,20 @@ public class UtilImage {
             return null;
         }
         Bitmap bitmap = BitmapFactory.decodeFile(imgFilePath);
+        if (bool) {
+            return Bitmap.createScaledBitmap(bitmap, width, height, true);
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, image_width, image_height, true);
+
+    }
+
+    /**
+     * return : bitmap setting width and height
+     * bool == true?custom value:fixed value
+     */
+    public static Bitmap getBitmap(Bitmap bitmap, int width, int height, boolean bool) {
+
         if (bool) {
             return Bitmap.createScaledBitmap(bitmap, width, height, true);
         }

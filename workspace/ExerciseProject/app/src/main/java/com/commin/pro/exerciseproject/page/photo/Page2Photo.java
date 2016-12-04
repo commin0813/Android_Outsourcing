@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -112,6 +113,10 @@ public class Page2Photo extends AppCompatActivity {
                     UtilDialog.showToast(Page2Photo.this, "먼저 운동한 날을 선택 하세요");
                     return;
                 }
+                if (user_photo_path == null) {
+                    UtilDialog.showToast(Page2Photo.this, "사진을 찍으세요.");
+                    return;
+                }
 
                 Model2Excercise model = new Model2Excercise();
                 model.setUser_photo_path(user_photo_path);
@@ -131,6 +136,7 @@ public class Page2Photo extends AppCompatActivity {
                 }
                 if (user_photo_path == null) {
                     UtilDialog.showToast(Page2Photo.this, "사진을 찍으세요.");
+                    return;
                 }
                 Model2Excercise model = Dao2Excercise.getHashMap().get(selected_date);
                 model.setUser_photo_path(user_photo_path);
@@ -185,7 +191,7 @@ public class Page2Photo extends AppCompatActivity {
 
     }
 
-    private void setImageSource(String image_path){
+    private void setImageSource(String image_path) {
         user_photo_path = image_path;
         user_photo = UtilImage.getBitmap(user_photo_path);
     }
@@ -221,7 +227,7 @@ public class Page2Photo extends AppCompatActivity {
             UtilDialog.showToast(Page2Photo.this, "edit complete");
             Model2Excercise model = (Model2Excercise) intent.getSerializableExtra("Model2Excercise");
             model.getDate();
-            setImageSource( model.getUser_photo_path());
+            setImageSource(model.getUser_photo_path());
 
             if (user_photo != null) {
                 UtilDialog.showToast(Page2Photo.this, "사진을 불러왔습니다.");
@@ -242,11 +248,16 @@ public class Page2Photo extends AppCompatActivity {
             Uri uri_datas = intent.getData();
 
             if (uri_datas != null) {
+//                DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+//                int width = dm.widthPixels;
+//                int height = dm.heightPixels;
                 user_photo_path = getPath(uri_datas);
 
                 int degree = UtilImage.getExifOrientation(user_photo_path);
-                user_photo = UtilImage.getBitmap(user_photo_path, 500, 500, false);
+                user_photo = UtilImage.getBitmap(user_photo_path, 0, 0, false);
+//                user_photo = UtilImage.loadBackgroundBitmap(Page2Photo.this,user_photo_path);
                 user_photo = UtilImage.getRotatedBitmap(user_photo, degree);
+//                user_photo = UtilImage.getBitmap(user_photo,displayMetrics.widthPixels,displayMetrics.heightPixels,true);
 
                 if (user_photo != null) {
                     user_photo_path = UtilImage.getImageCode(Page2Photo.this, user_photo);

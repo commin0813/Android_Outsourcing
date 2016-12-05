@@ -71,15 +71,7 @@ public class EditView extends View implements Page2PhotoEdit.EditHandler {
                     copyBitmap = Page2PhotoEdit.user_photo.copy(Bitmap.Config.ARGB_8888, true);
                     bitmap = copyBitmap;
                     Canvas text_canvas = new Canvas(copyBitmap);
-                    char[] word = text.toCharArray();
-                    String str = null;
-                    for (int i = 0; i < word.length; i++) {
-                        if (i % 9 == 0) {
-
-                        }
-                    }
                     text_canvas.drawText(text, 10, 50, text_paint);
-
                 }
 
                 break;

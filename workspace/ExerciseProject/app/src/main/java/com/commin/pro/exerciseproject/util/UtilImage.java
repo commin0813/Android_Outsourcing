@@ -25,9 +25,12 @@ import java.io.IOException;
  * Created by user on 2016-04-11.
  */
 public class UtilImage {
-    public final static int image_width = 650;
+    //이미지 사이즈 입니다. 이미지가 너무크면 편집할때 팅기므로
+    //원하는 사이즈에 quality를 지정하셔서 사용하세요.
 
-    public final static int image_height = 450;
+    public final static int image_width = 500;
+
+    public final static int image_height = 300;
 
     public final static int image_quality = 70;
 

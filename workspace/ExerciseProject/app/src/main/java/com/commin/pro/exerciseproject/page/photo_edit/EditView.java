@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -16,16 +17,12 @@ import com.commin.pro.exerciseproject.ApplicationProperty;
  * Created by user on 2016-12-02.
  */
 public class EditView extends View implements Page2PhotoEdit.EditHandler {
-
+    private static final String LOG_TAG = "EditView";
     private Paint text_paint;
     private Paint line_paint;
     private Path path = new Path();
     private Bitmap bitmap;
-
-    private Canvas c;
     private String text = null;
-    private boolean status = false;
-
     private int code = 0;
 
 
@@ -43,9 +40,9 @@ public class EditView extends View implements Page2PhotoEdit.EditHandler {
 
     }
 
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
+//    public Bitmap getBitmap() {
+//        return bitmap;
+//    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -118,7 +115,6 @@ public class EditView extends View implements Page2PhotoEdit.EditHandler {
         invalidate();
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (code != ApplicationProperty.DRAW_LINE) {
@@ -126,19 +122,22 @@ public class EditView extends View implements Page2PhotoEdit.EditHandler {
         }
         float x = event.getX();
         float y = event.getY();
+        x = x / (getWidth() / (float)bitmap.getWidth());//늘어난 bitmap의 비율만큼 나누어주어야 정상적으로 그려집니다.
+        y = y / (getHeight() / (float)bitmap.getHeight());
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                path.moveTo(x, y); // 자취에 그리지 말고 위치만 이동해라
+                path.moveTo(x, y);
                 break;
             case MotionEvent.ACTION_MOVE:
-                path.lineTo(x, y); // 자취에 선을 그려라
+                path.lineTo(x, y);
+                Page2PhotoEdit.user_photo = bitmap;
+                invalidate();
                 break;
             case MotionEvent.ACTION_UP:
                 break;
         }
-        Page2PhotoEdit.user_photo = bitmap;
-        invalidate();
+
         return true;
 
     }

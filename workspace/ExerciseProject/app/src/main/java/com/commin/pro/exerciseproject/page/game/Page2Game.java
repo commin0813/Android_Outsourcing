@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.commin.pro.exerciseproject.R;
 import com.commin.pro.exerciseproject.page.photo.Page2Photo;
-
+/*
+ 게임 Acitivity 입니다. View를 화면에 만들어서 출력합니다.
+ */
 public class Page2Game extends AppCompatActivity {
     private TextView tv_game_title;
     private LinearLayout ll_container;
@@ -41,6 +43,7 @@ public class Page2Game extends AppCompatActivity {
         ll_container = (LinearLayout) findViewById(R.id.ll_container);
         barView.setVisibility(View.VISIBLE);
         ll_container.addView(barView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        //Layout에 View를 추가합니다.
 
     }
 }

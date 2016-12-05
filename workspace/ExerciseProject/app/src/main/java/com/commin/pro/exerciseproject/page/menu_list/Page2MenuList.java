@@ -27,6 +27,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 
+/*
+메뉴를 구성하는 Activity 입니다.
+Adapter에서 그려주는 List에따라 변경되어 화면에 출력됩니다.
+ */
 public class Page2MenuList extends AppCompatActivity {
     private static final String LOG_TAG = "Page2MenuList";
     private final int ITEM_SELECT_EXCERCIZE = 0;
@@ -77,7 +81,7 @@ public class Page2MenuList extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 switch (position) {
                     case ITEM_SELECT_EXCERCIZE: {
-
+                        //Util 클래스들은 제가 사용하려고 만들어놓은 클래스들입니다. 선물로드릴게요.
                         UtilDialog.openCustomDialogConfirm(Page2MenuList.this, "난이도선택", "난이도를선택하세요", "고급", "초급", new UtilCustomDialog.OnClickListener() {
                             @Override
                             public void onClick() {

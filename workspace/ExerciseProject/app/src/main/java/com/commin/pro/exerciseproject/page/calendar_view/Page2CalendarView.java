@@ -18,7 +18,10 @@ import com.commin.pro.exerciseproject.util.UtilImage;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+/*
+달력을 클릭하였을때 호출되는 View Activity입니다. 호출될때 받은 intent 데이트에 모델을 가지고
+화면을 변경시키면됩니다.
+ */
 public class Page2CalendarView extends AppCompatActivity {
 
     private static final String LOG_TAG = "Page2CalendarView";
@@ -44,7 +47,7 @@ public class Page2CalendarView extends AppCompatActivity {
     }
 
     private void init_elements() {
-        model = (Model2Excercise) getIntent().getSerializableExtra("Model2Excercise");
+        model = (Model2Excercise) getIntent().getSerializableExtra("Model2Excercise");//Intent 데이터로 model을 생성.
         tv_calendar_view_the_date = (TextView) findViewById(R.id.tv_calendar_view_the_date);
         SimpleDateFormat df = new SimpleDateFormat("MM월 dd일");
         tv_calendar_view_the_date.setText(df.format(model.getDate()));
@@ -81,10 +84,7 @@ public class Page2CalendarView extends AppCompatActivity {
         check_view_third.setChecked(Boolean.valueOf(model.getCheck().get(ApplicationProperty.THIRD_CHECK)));
 
         if (model.getUser_photo_path() != null) {
-//            int degree = UtilImage.getExifOrientation(model.getUser_photo_path());
             Bitmap user_photo = null;
-//            user_photo = UtilImage.getBitmap(model.getUser_photo_path(), 0, 0, false);
-//            user_photo = UtilImage.getRotatedBitmap(user_photo, degree);
             user_photo = UtilImage.getBitmap(model.getUser_photo_path());
 
 

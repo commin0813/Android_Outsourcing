@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.commin.pro.lectureschedule">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Application">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".page.schedule.Page2Schedule" />
+        <activity android:name=".page.note.Page2Note" />
+        <activity android:name=".page.menu.Page2Menu" />
+        <activity android:name=".page.lecture_edit.Page2LectureEdit" />
+        <activity android:name=".page.lecture.Page2Lecture"></activity>
+    </application>
+
+</manifest>

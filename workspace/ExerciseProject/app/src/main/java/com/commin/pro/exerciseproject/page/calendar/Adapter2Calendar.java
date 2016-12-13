@@ -67,10 +67,6 @@ public class Adapter2Calendar extends ArrayAdapter<Date> {
         textView.setTypeface(null, Typeface.NORMAL);
         textView.setTextColor(context.getResources().getColor(R.color.greyed_out));
 
-//            if (month != today.getMonth() || year != today.getYear()) {
-//                // if this day is outside current month, grey it out
-//                textView.setTextColor(getResources().getColor(R.color.greyed_out));
-//            }
         Calendar currentDate =CalendarView.getCalendarInstance();
         if (month == currentDate.get(Calendar.MONTH)) {
             // if this day is outside current month, grey it out
@@ -80,11 +76,6 @@ public class Adapter2Calendar extends ArrayAdapter<Date> {
                 textView.setTextColor(context.getResources().getColor(R.color.today));
             }
         }
-//            if (year == today.getYear() && month == today.getMonth() && day == today.getDate()) {
-//                // if it is today, set it to blue/bold
-//                ((TextView) view).setTypeface(null, Typeface.BOLD);
-//                ((TextView) view).setTextColor(getResources().getColor(R.color.today));
-//            }
 
         textView.setText(String.valueOf(date.getDate()));
 

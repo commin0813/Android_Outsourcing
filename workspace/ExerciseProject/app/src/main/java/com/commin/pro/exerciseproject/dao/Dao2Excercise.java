@@ -9,8 +9,14 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * Created by hyungwoo on 2016-11-30.
+ * Created by user on 2016-11-30.
+ * 이 클래스는 데이터베이스 역할을 하며,
+ * 임시로 파일을 Map 형태로 저장합니다.
+ * insert 메서드로 데이터를 Map에 저장하고
+ * update 메서드로 데이터를 수정하고
+ * query 메서드로 데이터를 불러옵니다.
  */
+
 public class Dao2Excercise {
     private static final String LOG_TAG ="Dao2Excercise";
 

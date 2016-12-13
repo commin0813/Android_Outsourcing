@@ -18,7 +18,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-
+/*
+운동 Activitiy 입니다.
+체크된 값과 초심자 Acitivity이면 Model에 isBeginner 에 true 를 넣고 아니면 false를 넣습니다.
+ */
 public class Page2DoExcerciseBegin extends AppCompatActivity {
     private static String LOG_TAG = "Page2DoExcerciseBegin";
 

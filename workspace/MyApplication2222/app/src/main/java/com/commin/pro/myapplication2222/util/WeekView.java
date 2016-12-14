@@ -480,7 +480,7 @@ public class WeekView extends View {
      */
     private void initTextTimeWidth() {
         mTimeTextWidth = 0;
-        for (int i = 0; i < 24; i++) {
+        for (int i = 0; i < 12; i++) {
             // Measure time string and get max width.
             String time = getDateTimeInterpreter().interpretTime(i);
             if (time == null)
@@ -550,6 +550,7 @@ public class WeekView extends View {
     private void drawHeaderRowAndEvents(Canvas canvas) {
         // Calculate the available width for each day.
         mHeaderColumnWidth = mTimeTextWidth + mHeaderColumnPadding *2;
+
         mWidthPerDay = getWidth() - mHeaderColumnWidth - mColumnGap * (mNumberOfVisibleDays - 1);
         mWidthPerDay = mWidthPerDay/mNumberOfVisibleDays;
 
@@ -557,30 +558,30 @@ public class WeekView extends View {
 
         Calendar today = today();
 
-        if (mAreDimensionsInvalid) {
-            mEffectiveMinHourHeight= Math.max(mMinHourHeight, (int) ((getHeight() - mHeaderHeight - mHeaderRowPadding * 2 - mHeaderMarginBottom) / 24));
-
-            mAreDimensionsInvalid = false;
-            if(mScrollToDay != null)
-                goToDate(mScrollToDay);
-
-            mAreDimensionsInvalid = false;
-            if(mScrollToHour >= 0)
-                goToHour(mScrollToHour);
-
-            mScrollToDay = null;
-            mScrollToHour = -1;
-            mAreDimensionsInvalid = false;
-        }
-        if (mIsFirstDraw){
-            mIsFirstDraw = false;
-
-            // If the week view is being drawn for the first time, then consider the first day of the week.
-            if(mNumberOfVisibleDays >= 7 && today.get(Calendar.DAY_OF_WEEK) != mFirstDayOfWeek && mShowFirstDayOfWeekFirst) {
-                int difference = (today.get(Calendar.DAY_OF_WEEK) - mFirstDayOfWeek);
-                mCurrentOrigin.x += (mWidthPerDay + mColumnGap) * difference;
-            }
-        }
+//        if (mAreDimensionsInvalid) {
+//            mEffectiveMinHourHeight= Math.max(mMinHourHeight, (int) ((getHeight() - mHeaderHeight - mHeaderRowPadding * 2 - mHeaderMarginBottom) / 24));
+//
+//            mAreDimensionsInvalid = false;
+//            if(mScrollToDay != null)
+//                goToDate(mScrollToDay);
+//
+//            mAreDimensionsInvalid = false;
+//            if(mScrollToHour >= 0)
+//                goToHour(mScrollToHour);
+//
+//            mScrollToDay = null;
+//            mScrollToHour = -1;
+//            mAreDimensionsInvalid = false;
+//        }
+//        if (mIsFirstDraw){
+//            mIsFirstDraw = false;
+//
+//            // If the week view is being drawn for the first time, then consider the first day of the week.
+//            if(mNumberOfVisibleDays >= 7 && today.get(Calendar.DAY_OF_WEEK) != mFirstDayOfWeek && mShowFirstDayOfWeekFirst) {
+//                int difference = (today.get(Calendar.DAY_OF_WEEK) - mFirstDayOfWeek);
+//                mCurrentOrigin.x += (mWidthPerDay + mColumnGap) * difference;
+//            }
+//        }
 
         // Calculate the new height due to the zooming.
         if (mNewHourHeight > 0){
@@ -1199,52 +1200,9 @@ public class WeekView extends View {
     }
 
 
-    public void setNumberOfVisibleDays(int numberOfVisibleDays) {
-        this.mNumberOfVisibleDays = numberOfVisibleDays;
-        mCurrentOrigin.x = 0;
-        mCurrentOrigin.y = 0;
-        invalidate();
-    }
-
-
-    public void setColumnGap(int columnGap) {
-        mColumnGap = columnGap;
-        invalidate();
-    }
-
-
-
-
-
-
-    public void setTextSize(int textSize) {
-        mTextSize = textSize;
-        mTodayHeaderTextPaint.setTextSize(mTextSize);
-        mHeaderTextPaint.setTextSize(mTextSize);
-        mTimeTextPaint.setTextSize(mTextSize);
-        invalidate();
-    }
-
-
-
-
-    public void setEventTextSize(int eventTextSize) {
-        mEventTextSize = eventTextSize;
-        mEventTextPaint.setTextSize(mEventTextSize);
-        invalidate();
-    }
-
-
-
-
-
-
-
     public Calendar getFirstVisibleDay() {
         return mFirstVisibleDay;
     }
-
-
 
 
     @Override

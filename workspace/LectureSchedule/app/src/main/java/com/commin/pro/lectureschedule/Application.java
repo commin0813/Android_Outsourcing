@@ -1,7 +1,10 @@
 package com.commin.pro.lectureschedule;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.commin.pro.lectureschedule.page.lecture.Page2Lecture;
 
 public class Application extends AppCompatActivity {
 
@@ -10,6 +13,6 @@ public class Application extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_application);
 
-        //dkssud
+        startActivity(new Intent(Application.this, Page2Lecture.class));
     }
 }

@@ -8,4 +8,7 @@ public class ApplicationProperty {
 
     public static int REQUEST_CODE_FOR_LECTURE_ADD=123;
     public static int REQUEST_CODE_FOR_LECTURE_EDIT=124;
+    public static int REQUEST_CODE_FOR_NOTE=125;
+
+    public static String DATABASE_TABLE_NAME = "LECTURE";
 }

@@ -2,6 +2,7 @@ package com.commin.pro.lectureschedule.page.lecture_add;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,10 +15,13 @@ import android.widget.TextView;
 
 import com.commin.pro.lectureschedule.ApplicationProperty;
 import com.commin.pro.lectureschedule.R;
+import com.commin.pro.lectureschedule.dao.Dao2Lecture;
 import com.commin.pro.lectureschedule.model.Model2Lecture;
+import com.commin.pro.lectureschedule.util.UtilCheck;
 import com.commin.pro.lectureschedule.util.UtilDialog;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Page2LectureAdd extends AppCompatActivity {
     private RadioGroup radio_group;
@@ -28,8 +32,7 @@ public class Page2LectureAdd extends AppCompatActivity {
     private Spinner sp_start_time, sp_end_time;
 
     private Button btn_complete_add;
-
-
+    private String[] time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,10 @@ public class Page2LectureAdd extends AppCompatActivity {
     }
 
     private void createGUI() {
-        btn_complete_add = (Button)findViewById(R.id.btn_complete_add);
+
+        time = getResources().getStringArray(R.array.time_08_19);
+
+        btn_complete_add = (Button) findViewById(R.id.btn_complete_add);
         radio_group = (RadioGroup) findViewById(R.id.radio_group);
         radio_btn_mon = (RadioButton) findViewById(R.id.radio_btn_mon);
         radio_btn_the = (RadioButton) findViewById(R.id.radio_btn_the);
@@ -57,69 +63,152 @@ public class Page2LectureAdd extends AppCompatActivity {
         ed_classroom_name = (EditText) findViewById(R.id.ed_classroom_name);
 
         sp_start_time = (Spinner) findViewById(R.id.sp_start_time);
-        ArrayList<String> items= new ArrayList<String>();
-        String []  str =  getResources().getStringArray(R.array.time_08_19);
-        for(String ss : str){
+        ArrayList<String> items = new ArrayList<String>();
+
+        for (String ss : time) {
             items.add(ss);
         }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(Page2LectureAdd.this, android.R.layout.simple_spinner_dropdown_item, items);
         sp_start_time.setAdapter(adapter);
         sp_end_time = (Spinner) findViewById(R.id.sp_end_time);
         sp_end_time.setAdapter(adapter);
-
-
-
+        sp_end_time.setSelection(1);
 
     }
-    private boolean checkNull(){
-        if(ed_class_name.getText().toString().equals("")&&ed_classroom_name.getText().toString().equals("")&&ed_professor_name.getText().toString().equals("")){
+
+    private boolean checkNull() {
+        if (ed_class_name.getText().toString().equals("") && ed_classroom_name.getText().toString().equals("") && ed_professor_name.getText().toString().equals("")) {
             return true;
         }
 
         return false;
     }
-    private void init_listener(){
+
+    private boolean checkSpinner(String start_time, String end_time) {
+        if (UtilCheck.checkPeriod(start_time, end_time) <= 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    private void saveData() {
+        if (checkNull()) {
+            UtilDialog.showToast(Page2LectureAdd.this, "값을 모두 입력하세요.");
+            return;
+        }
+
+        String selected_start_time = sp_start_time.getSelectedItem().toString();
+        String selected_end_time = sp_end_time.getSelectedItem().toString();
+
+        if ((checkSpinner(selected_start_time, selected_end_time))) {
+            UtilDialog.showToast(Page2LectureAdd.this, "정상적인 시간이 아닙니다.");
+            return;
+        }
+        RadioButton radioButton = (RadioButton) findViewById(radio_group.getCheckedRadioButtonId());
+        String selected_day = radioButton.getText().toString();
+        int colum_index = 0;
+        switch (selected_day) {
+            case "월":
+                colum_index = 1;
+                break;
+            case "화":
+                colum_index = 2;
+                break;
+            case "수":
+                colum_index = 3;
+                break;
+            case "목":
+                colum_index = 4;
+                break;
+            case "금":
+                colum_index = 5;
+                break;
+            case "토":
+                colum_index = 6;
+                break;
+            case "일":
+                colum_index = 7;
+                break;
+        }
+
+
+        int period = UtilCheck.checkPeriod(selected_start_time, selected_end_time);
+
+
+        int start_row_index = 0;
+
+        for (int i = 0; i < time.length; i++) {
+            if (selected_start_time.equals(time[i])) {
+                start_row_index = i;
+                break;
+            }
+        }
+
+        String id = "";
+//                String id = start_row_index + ApplicationProperty.OPERATOR_ID + colum_index;
+        if (period > 1) {
+            ArrayList<Model2Lecture> models = new ArrayList<Model2Lecture>();
+            int groupid = new Random().nextInt();
+            int row_index = 0;
+            for (int i = 0; i < period; i++) {
+                Model2Lecture model = new Model2Lecture();
+                id = (start_row_index + i) + ApplicationProperty.OPERATOR_ID + colum_index;
+                model.setId(id);
+                model.setClass_name(ed_class_name.getText().toString());
+                model.setClassroom_name(ed_classroom_name.getText().toString());
+                model.setEvents(true);
+                model.setData(true);
+                model.setStart_time(selected_start_time);
+                model.setEnd_time(selected_end_time);
+                model.setProfessor_name(ed_professor_name.getText().toString());
+                model.setGroupid(groupid);
+                if (i == 0) {
+                    model.setPosition("top");
+                } else if (i == period - 1) {
+                    model.setPosition("bottom");
+                } else {
+                    model.setPosition("middle");
+                }
+                models.add(model);
+            }
+            Dao2Lecture.insertDatabase(models);
+
+        } else {
+            Model2Lecture model = new Model2Lecture();
+            int groupid = new Random().nextInt();
+            id = start_row_index + ApplicationProperty.OPERATOR_ID + colum_index;
+            model.setId(id);
+            model.setClass_name(ed_class_name.getText().toString());
+            model.setClassroom_name(ed_classroom_name.getText().toString());
+            model.setEvents(true);
+            model.setData(true);
+            model.setStart_time(selected_start_time);
+            model.setEnd_time(selected_end_time);
+            model.setProfessor_name(ed_professor_name.getText().toString());
+            model.setPosition("top");
+            model.setGroupid(groupid);
+            Dao2Lecture.insertDatabase(model);
+
+        }
+        setResult(RESULT_OK, null);
+        finish();
+    }
+
+    private void init_listener() {
         btn_complete_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkNull()){
-                    UtilDialog.showToast(Page2LectureAdd.this,"값을 모두 입력하세요.");
-                    return;
-                }
-                RadioButton radioButton = (RadioButton)findViewById(radio_group.getCheckedRadioButtonId());
-                String selected_day = radioButton.getText().toString();
-                int colum_index =0;
-                switch (selected_day){
-                    case "월":colum_index=1;break;
-                    case "화":colum_index=2;break;
-                    case "수":colum_index=3;break;
-                    case "목":colum_index=4;break;
-                    case "금":colum_index=5;break;
-                    case "토":colum_index=6;break;
-                    case "일":colum_index=7;break;
-                }
-                String selected_start_time = sp_start_time.getSelectedItem().toString();
-                int start_row_index = 0;
-                String [] time = getResources().getStringArray(R.array.time_08_19);
-                for(int i = 0 ; i <time.length;i++){
-                    if(selected_start_time.equals(time[i])){
-                        start_row_index = i;
-                        break;
-                    }
-                }
-
-                String id = start_row_index+ ApplicationProperty.OPERATOR_ID+colum_index;
-
-
-                Model2Lecture model = new Model2Lecture();
-
+                saveData();
             }
         });
 
         radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int view) {
-                if(!ll_layer_box.isShown()) {
+                if (!ll_layer_box.isShown()) {
                     ll_layer_box.setVisibility(View.VISIBLE);
                 }
 

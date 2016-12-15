@@ -8,10 +8,12 @@ import java.io.Serializable;
 public class Model2Lecture implements Serializable {
     private boolean isData;
     private boolean isEvents;
+    private String position;
 
     private String name_value;
 
     private String id;
+    private int groupid;
 
     private int row_index;
     private int column_index;
@@ -108,5 +110,21 @@ public class Model2Lecture implements Serializable {
 
     public void setEnd_time(String end_time) {
         this.end_time = end_time;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public int getGroupid() {
+        return groupid;
+    }
+
+    public void setGroupid(int groupid) {
+        this.groupid = groupid;
     }
 }

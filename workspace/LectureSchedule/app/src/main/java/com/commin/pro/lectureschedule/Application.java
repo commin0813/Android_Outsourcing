@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class Application extends AppCompatActivity {
 
-        private final DBHelper db = new DBHelper(Application.this,"lecture.db",null,1);
+    private final DBHelper db = new DBHelper(Application.this, "lecture.db", null, 9);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,5 +22,6 @@ public class Application extends AppCompatActivity {
 
         Dao2Lecture.setDatabase(db);
         startActivity(new Intent(Application.this, Page2Lecture.class));
+        finish();
     }
 }

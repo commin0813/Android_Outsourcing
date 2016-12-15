@@ -1,18 +1,26 @@
 package com.commin.pro.lectureschedule.model;
 
+import java.io.Serializable;
+
 /**
  * Created by hyungwoo on 2016-12-13.
  */
-public class Model2Lecture {
+public class Model2Lecture implements Serializable {
     private boolean isData;
+    private boolean isEvents;
+
     private String name_value;
+
     private String id;
+
     private int row_index;
     private int column_index;
+
     private String class_name;
     private String professor_name;
-    private String room_name;
-    private boolean isEvents;
+    private String classroom_name;
+    private String start_time;
+    private String end_time;
 
     public boolean isData() {
         return isData;
@@ -54,12 +62,12 @@ public class Model2Lecture {
         this.professor_name = professor_name;
     }
 
-    public String getRoom_name() {
-        return room_name;
+    public String getClassroom_name() {
+        return classroom_name;
     }
 
-    public void setRoom_name(String room_name) {
-        this.room_name = room_name;
+    public void setClassroom_name(String classroom_name) {
+        this.classroom_name = classroom_name;
     }
 
     public int getRow_index() {
@@ -84,5 +92,21 @@ public class Model2Lecture {
 
     public void setEvents(boolean events) {
         isEvents = events;
+    }
+
+    public String getStart_time() {
+        return start_time;
+    }
+
+    public void setStart_time(String start_time) {
+        this.start_time = start_time;
+    }
+
+    public String getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(String end_time) {
+        this.end_time = end_time;
     }
 }

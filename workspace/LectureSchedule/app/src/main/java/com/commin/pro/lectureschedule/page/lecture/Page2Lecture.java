@@ -1,15 +1,19 @@
 package com.commin.pro.lectureschedule.page.lecture;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import com.commin.pro.lectureschedule.ApplicationProperty;
 import com.commin.pro.lectureschedule.R;
 import com.commin.pro.lectureschedule.model.Model2Lecture;
+import com.commin.pro.lectureschedule.page.lecture_add.Page2LectureAdd;
+import com.commin.pro.lectureschedule.page.lecture_edit.Page2LectureEdit;
 import com.commin.pro.lectureschedule.util.UtilDate;
 import com.commin.pro.lectureschedule.util.UtilDialog;
 
@@ -26,7 +30,8 @@ public class Page2Lecture extends AppCompatActivity {
     private int NumColum;
     private int NumRow;
     private ArrayList<String> day_item;
-
+    private ImageView iv_button_add_lecture;
+    private ImageView iv_button_edit_lecture;
     private ArrayList<Model2Lecture> content_item;
 
     @Override
@@ -47,6 +52,8 @@ public class Page2Lecture extends AppCompatActivity {
     }
 
     private void createGUI() {
+        iv_button_add_lecture=(ImageView)findViewById(R.id.iv_button_add_lecture);
+        iv_button_edit_lecture=(ImageView)findViewById(R.id.iv_button_edit_lecture);
 
         content_item = new ArrayList<Model2Lecture>();
         day_item = new ArrayList<String>();
@@ -64,6 +71,20 @@ public class Page2Lecture extends AppCompatActivity {
     }
 
     private void init_listener() {
+        iv_button_add_lecture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(Page2Lecture.this, Page2LectureAdd.class),ApplicationProperty.REQUEST_CODE_FOR_LECTURE_ADD);
+            }
+        });
+
+        iv_button_edit_lecture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(Page2Lecture.this, Page2LectureEdit.class),ApplicationProperty.REQUEST_CODE_FOR_LECTURE_EDIT);
+            }
+        });
+
         gv_content.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {

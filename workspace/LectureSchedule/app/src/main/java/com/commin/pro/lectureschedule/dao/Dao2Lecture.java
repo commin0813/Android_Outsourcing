@@ -12,8 +12,14 @@ import java.util.HashMap;
  */
 public class Dao2Lecture {
     private static final String LOG_TAG ="Dao2Lecture";
+
     private static class Singleton_Map {
         private static final HashMap<String,Model2Lecture> model_map =new HashMap<String,Model2Lecture>();
+        private static DBHelper db = null;
+
+    }
+    public static void setDatabase(final DBHelper db){
+        Singleton_Map.db = db;
     }
     public static HashMap<String,Model2Lecture> getHashMap(){
         Log.d(LOG_TAG,"getHashMap ---- ");
@@ -27,6 +33,11 @@ public class Dao2Lecture {
         Singleton_Map.model_map.remove(id);
         insertModel(model);
     }
+
+    public static void insertDatabase(Model2Lecture model){
+
+    }
+
 
 
 }

@@ -5,4 +5,7 @@ package com.commin.pro.lectureschedule;
  */
 public class ApplicationProperty {
     public static String OPERATOR_ID="+";
+
+    public static int REQUEST_CODE_FOR_LECTURE_ADD=123;
+    public static int REQUEST_CODE_FOR_LECTURE_EDIT=124;
 }

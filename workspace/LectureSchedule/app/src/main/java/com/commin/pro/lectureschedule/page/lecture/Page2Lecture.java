@@ -196,7 +196,9 @@ public class Page2Lecture extends AppCompatActivity {
             Log.w(LOG_TAG,e);
         }
 
+        //day setting - 마지막 요일 구하기
         String[] arr_string_day = getResources().getStringArray(R.array.days_7);
+
         day_item.add("");
         for (int i = 0; i < arr_string_day.length; i++) {
             day_item.add(arr_string_day[i]);

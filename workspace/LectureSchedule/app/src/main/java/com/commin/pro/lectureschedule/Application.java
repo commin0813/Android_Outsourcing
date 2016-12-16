@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class Application extends AppCompatActivity {
 
-    private final DBHelper db = new DBHelper(Application.this, "lecture.db", null, 9);
+    private final DBHelper db = new DBHelper(Application.this, "lecture.db", null, 2);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

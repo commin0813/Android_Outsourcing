@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -15,16 +16,21 @@ import com.commin.pro.lectureschedule.dao.Dao2Lecture;
 import com.commin.pro.lectureschedule.model.Model2Lecture;
 import com.commin.pro.lectureschedule.page.lecture_add.Page2LectureAdd;
 import com.commin.pro.lectureschedule.page.lecture_edit.Page2LectureEdit;
+import com.commin.pro.lectureschedule.page.lecture_view.Page2LectureView;
 import com.commin.pro.lectureschedule.page.note.Page2Note;
+import com.commin.pro.lectureschedule.page.note_view.Page2NoteView;
 import com.commin.pro.lectureschedule.util.UtilCheck;
 import com.commin.pro.lectureschedule.util.UtilCustomDialog;
 import com.commin.pro.lectureschedule.util.UtilDate;
 import com.commin.pro.lectureschedule.util.UtilDialog;
+import com.commin.pro.lectureschedule.widget.DialogProgress;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Page2Lecture extends AppCompatActivity {
+    private static final String LOG_TAG="Page2Lecture";
+
     private GridView gv_day;
     private GridView gv_content;
     private Adapter2GridDay adapter2GridDay;
@@ -63,13 +69,11 @@ public class Page2Lecture extends AppCompatActivity {
         day_item = new ArrayList<String>();
 
         gv_day = (GridView) findViewById(R.id.gv_day);
-        adapter2GridDay = new Adapter2GridDay(Page2Lecture.this, R.layout.item_gird_day, day_item);
-        gv_day.setAdapter(adapter2GridDay);
+
 
         gv_content = (GridView) findViewById(R.id.gv_content);
 
-        adapter2GridContent = new Adapter2GridContent(Page2Lecture.this, R.layout.item_grid_content, content_item);
-        gv_content.setAdapter(adapter2GridContent);
+
 
         queryDataGrid();
     }
@@ -94,7 +98,18 @@ public class Page2Lecture extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Model2Lecture model = content_item.get(position);
                 if (model.isData()) {
-                    UtilDialog.showToast(Page2Lecture.this, "클릭되었습니다." + model.getId());
+                    if(model.isMemo()){
+
+                        Intent intent = new Intent(Page2Lecture.this, Page2NoteView.class);
+                        intent.putExtra("model",model);
+                        startActivity(intent);
+                    }else if(model.isEvents()){
+
+                        Intent intent = new Intent(Page2Lecture.this, Page2LectureView.class);
+                        intent.putExtra("model",model);
+                        startActivity(intent);
+                    }
+
                 }
             }
         });
@@ -103,12 +118,28 @@ public class Page2Lecture extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 final Model2Lecture model = content_item.get(position);
                 if(model.isData()){
-                    if(!model.isEvents()){
+
+
+                    if(!model.isEvents()&&!model.isMemo()){
                         String str = UtilCheck.checkDay(model.getId());
                         UtilDialog.openCustomDialogConfirm(Page2Lecture.this, str+"요일 메모", "작성 하실래요?", "예", "아니오", new UtilCustomDialog.OnClickListener() {
                             @Override
                             public void onClick() {
-                                startActivityForResult(new Intent(Page2Lecture.this, Page2Note.class),ApplicationProperty.REQUEST_CODE_FOR_NOTE);
+                                try {
+                                    DialogProgress.run(Page2Lecture.this, new DialogProgress.ProgressTaskIf() {
+                                        @Override
+                                        public Object run() throws Exception {
+                                            Intent intent = new Intent(Page2Lecture.this, Page2Note.class);
+                                            intent.putExtra("model",model);
+                                            startActivityForResult(intent,ApplicationProperty.REQUEST_CODE_FOR_NOTE);
+                                            return null;
+                                        }
+                                    });
+                                }catch (Exception e){
+
+                                }
+
+
                             }
                         }, new UtilCustomDialog.OnClickListener() {
                             @Override
@@ -122,8 +153,6 @@ public class Page2Lecture extends AppCompatActivity {
                             public void onClick() {
                                 Dao2Lecture.deleteData(model);
                                 queryDataGrid();
-                                adapter2GridContent.notifyDataSetChanged();
-                                adapter2GridContent.notifyDataSetInvalidated();
                             }
                         }, new UtilCustomDialog.OnClickListener() {
                             @Override
@@ -139,13 +168,35 @@ public class Page2Lecture extends AppCompatActivity {
     }
 
     private void queryDataGrid() {
-
+        //ArrayLIst에있는 데이터를 말끔히 청소를 해줘야합니다. 그래야 데이터가 겹치는것을 방지할수있어요.
         day_item.clear();
         content_item.clear();
 
-        ArrayList<Model2Lecture> models = Dao2Lecture.queryAllData();
+        //화면 갱신을 위해서는 Adapter를 데이터가 변경될때마다 다시 생성해주어서 GridVIew에 Set 해야 합니다.
+        adapter2GridDay = new Adapter2GridDay(Page2Lecture.this, R.layout.item_gird_day, day_item);
+        gv_day.invalidateViews();//혹시나하는마음에 GridView 청소
+        gv_day.setAdapter(adapter2GridDay);
 
-        String[] arr_string_day = getResources().getStringArray(R.array.days_5);
+        //위와 동일
+        adapter2GridContent = new Adapter2GridContent(Page2Lecture.this, R.layout.item_grid_content, content_item);
+        gv_content.invalidateViews();
+        gv_content.setAdapter(adapter2GridContent);
+
+
+//        ArrayList<Model2Lecture> models = Dao2Lecture.queryAllData();
+        ArrayList<Model2Lecture>  models = null;
+        try {
+              models = (ArrayList<Model2Lecture>) DialogProgress.run(Page2Lecture.this, new DialogProgress.ProgressTaskIf() {
+                @Override
+                public Object run() throws Exception {
+                    return Dao2Lecture.queryAllData();
+                }
+            });
+        }catch (Exception e){
+            Log.w(LOG_TAG,e);
+        }
+
+        String[] arr_string_day = getResources().getStringArray(R.array.days_7);
         day_item.add("");
         for (int i = 0; i < arr_string_day.length; i++) {
             day_item.add(arr_string_day[i]);
@@ -204,7 +255,6 @@ public class Page2Lecture extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             queryDataGrid();
-            adapter2GridContent.notifyDataSetChanged();
         } else {
             UtilDialog.showToast(Page2Lecture.this, "취소 되었습니다.");
         }

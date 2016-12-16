@@ -85,6 +85,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="저장"
+            android:textColor="@color/colorWhiteFA"
             android:textColorHint="@color/colorGrayCD"
             android:textSize="17sp" />
 

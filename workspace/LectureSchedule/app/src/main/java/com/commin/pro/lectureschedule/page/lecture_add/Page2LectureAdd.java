@@ -31,7 +31,7 @@ public class Page2LectureAdd extends AppCompatActivity {
     private LinearLayout ll_layer_box;
     private Spinner sp_start_time, sp_end_time;
 
-    private Button btn_complete_add;
+    private TextView btn_complete_add;
     private String[] time;
 
     @Override
@@ -46,7 +46,7 @@ public class Page2LectureAdd extends AppCompatActivity {
 
         time = getResources().getStringArray(R.array.time_08_19);
 
-        btn_complete_add = (Button) findViewById(R.id.btn_complete_add);
+        btn_complete_add = (TextView) findViewById(R.id.btn_complete_add);
         radio_group = (RadioGroup) findViewById(R.id.radio_group);
         radio_btn_mon = (RadioButton) findViewById(R.id.radio_btn_mon);
         radio_btn_the = (RadioButton) findViewById(R.id.radio_btn_the);

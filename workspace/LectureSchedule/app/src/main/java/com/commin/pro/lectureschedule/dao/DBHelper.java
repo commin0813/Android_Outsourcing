@@ -33,6 +33,9 @@ public class DBHelper extends SQLiteOpenHelper{
                 "starttime TEXT," +
                 "endtime TEXT," +
                 "position TEXT," +
+                "memotitle TEXT," +
+                "memo TEXT," +
+                "ismemo TEXT," +
                 "isevent TEXT," +
                 "isdata TEXT)");
     }

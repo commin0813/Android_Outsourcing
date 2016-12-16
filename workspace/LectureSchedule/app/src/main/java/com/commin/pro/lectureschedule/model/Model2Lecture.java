@@ -3,26 +3,38 @@ package com.commin.pro.lectureschedule.model;
 import java.io.Serializable;
 
 /**
- * Created by hyungwoo on 2016-12-13.
+ * Created by user on 2016-12-13.
  */
 public class Model2Lecture implements Serializable {
+    /*
+    Common Datas
+     */
     private boolean isData;
     private boolean isEvents;
-    private String position;
-
     private String name_value;
-
     private String id;
     private int groupid;
 
+    /*
+    Lecture Datas..
+     */
+    private String position;
     private int row_index;
     private int column_index;
-
     private String class_name;
     private String professor_name;
     private String classroom_name;
     private String start_time;
     private String end_time;
+
+    /*
+    Memo Datas..
+     */
+    private boolean isMemo;
+    private String memo_title;
+    private String memo;
+
+
 
     public boolean isData() {
         return isData;
@@ -126,5 +138,29 @@ public class Model2Lecture implements Serializable {
 
     public void setGroupid(int groupid) {
         this.groupid = groupid;
+    }
+
+    public boolean isMemo() {
+        return isMemo;
+    }
+
+    public void setMemo(boolean memo) {
+        isMemo = memo;
+    }
+
+    public String getMemo_title() {
+        return memo_title;
+    }
+
+    public void setMemo_title(String memo_title) {
+        this.memo_title = memo_title;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
     }
 }

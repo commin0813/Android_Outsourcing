@@ -21,7 +21,8 @@
         <activity android:name=".page.lecture_edit.Page2LectureEdit" />
         <activity android:name=".page.lecture.Page2Lecture" />
         <activity android:name=".page.lecture_add.Page2LectureAdd" />
-        <activity android:name=".page.note_view.Page2NoteView"></activity>
+        <activity android:name=".page.note_view.Page2NoteView" />
+        <activity android:name=".page.lecture_view.Page2LectureView"></activity>
     </application>
 
 </manifest>

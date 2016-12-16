@@ -1,6 +1,9 @@
 package com.commin.pro.lectureschedule.util;
 
 import android.content.Intent;
+import android.util.Log;
+
+import java.util.StringTokenizer;
 
 /**
  * Created by hyungwoo on 2016-12-15.
@@ -15,8 +18,11 @@ public class UtilCheck {
     }
 
     public static String checkDay(String id) {
-        String str = id.charAt(2) + "";
-        int a = Integer.parseInt(str);
+
+        StringTokenizer st = new StringTokenizer(id,"+");
+        String ss = st.nextToken();
+        Log.w("","");
+        int a = Integer.parseInt(st.nextToken());
         switch (a) {
             case 1:
                 return "월";
@@ -37,4 +43,5 @@ public class UtilCheck {
         return null;
 
     }
+
 }

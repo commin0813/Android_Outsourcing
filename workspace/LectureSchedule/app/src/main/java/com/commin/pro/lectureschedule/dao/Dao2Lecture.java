@@ -41,16 +41,44 @@ public class Dao2Lecture {
         Singleton_Map.model_map.remove(id);
         insertModel(model);
     }
-//    "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+
+//    db.execSQL("CREATE TABLE "+ ApplicationProperty.DATABASE_TABLE_NAME+"(" +
+//            "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
 //            "id TEXT NOT NULL," +
+//            "groupid INTEGER," +
 //            "classname TEXT," +
 //            "professorname TEXT," +
 //            "classroomname TEXT," +
 //            "starttime TEXT," +
 //            "endtime TEXT," +
 //            "position TEXT," +
+//            "memotitle TEXT," +
+//            "memo TEXT," +
+//            "ismemo TEXT," +
 //            "isevent TEXT," +
 //            "isdata TEXT)");
+
+    public static void insertDatabaseForMemo(Model2Lecture model) {
+        String id = model.getId();
+        int groupid= model.getGroupid();
+        String memotitle=model.getMemo_title();
+        String memo =model.getMemo();
+        String ismemo = String.valueOf(model.isMemo());
+        String isdata = String.valueOf(model.isData());
+
+        String sql = "insert into " + ApplicationProperty.DATABASE_TABLE_NAME
+                + " (id,groupid,memotitle,memo,ismemo,isdata)" +
+                " values" +
+                "('" + id + "'," +
+                "'" + groupid + "'," +
+                "'" + memotitle + "'," +
+                "'" + memo + "'," +
+                "'" + ismemo + "'," +
+                "'" + isdata + "');";
+
+        SQLiteDatabase db = Singleton_Map.db.getWritableDatabase();
+        db.execSQL(sql);
+    }
 
     public static void insertDatabase(Model2Lecture model) {
         String id = model.getId();
@@ -63,7 +91,6 @@ public class Dao2Lecture {
         String endtime = model.getEnd_time();
         String isevent = String.valueOf(model.isEvents());
         String isdata = String.valueOf(model.isData());
-
 
 
         String sql = "insert into " + ApplicationProperty.DATABASE_TABLE_NAME
@@ -92,36 +119,43 @@ public class Dao2Lecture {
     }
 
     public static ArrayList<Model2Lecture> queryAllData() {
-        String sql = "select * from " + ApplicationProperty.DATABASE_TABLE_NAME;
-        SQLiteDatabase db = Singleton_Map.db.getReadableDatabase();
+        try {
+            String sql = "select * from " + ApplicationProperty.DATABASE_TABLE_NAME;
+            SQLiteDatabase db = Singleton_Map.db.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery(sql, null);
-        ArrayList<Model2Lecture> models = new ArrayList<Model2Lecture>();
-        if (cursor != null) {
+            Cursor cursor = db.rawQuery(sql, null);
+            ArrayList<Model2Lecture> models = new ArrayList<Model2Lecture>();
+            if (cursor != null) {
 
-            while (cursor.moveToNext()) {
-                Model2Lecture model = new Model2Lecture();
-                model.setId(cursor.getString(1));
-                model.setGroupid(cursor.getInt(2));
-                model.setClass_name(cursor.getString(3));
-                model.setProfessor_name(cursor.getString(4));
-                model.setClassroom_name(cursor.getString(5));
-                model.setStart_time(cursor.getString(6));
-                model.setEnd_time(cursor.getString(7));
-                model.setPosition(cursor.getString(8));
-                model.setEvents(Boolean.valueOf(cursor.getString(9)));
-                model.setData(Boolean.valueOf(cursor.getString(10)));
-                models.add(model);
+                while (cursor.moveToNext()) {
+                    Model2Lecture model = new Model2Lecture();
+                    model.setId(cursor.getString(1));
+                    model.setGroupid(cursor.getInt(2));
+                    model.setClass_name(cursor.getString(3));
+                    model.setProfessor_name(cursor.getString(4));
+                    model.setClassroom_name(cursor.getString(5));
+                    model.setStart_time(cursor.getString(6));
+                    model.setEnd_time(cursor.getString(7));
+                    model.setPosition(cursor.getString(8));
+                    model.setMemo_title(cursor.getString(9));
+                    model.setMemo(cursor.getString(10));
+                    model.setMemo(Boolean.valueOf(cursor.getString(11)));
+                    model.setEvents(Boolean.valueOf(cursor.getString(12)));
+                    model.setData(Boolean.valueOf(cursor.getString(13)));
+                    models.add(model);
+                }
+
+                return models;
             }
-
-            return models;
+            return null;
+        } catch (Exception e) {
+            throw e;
         }
-        return null;
     }
 
-    public static void deleteData(Model2Lecture model){
+    public static void deleteData(Model2Lecture model) {
         int groupid = model.getGroupid();
-        String sql = "delete from "+ApplicationProperty.DATABASE_TABLE_NAME+" where groupid = '"+groupid+"';";
+        String sql = "delete from " + ApplicationProperty.DATABASE_TABLE_NAME + " where groupid = '" + groupid + "';";
         SQLiteDatabase db = Singleton_Map.db.getWritableDatabase();
         db.execSQL(sql);
 

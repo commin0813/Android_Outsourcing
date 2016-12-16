@@ -1,6 +1,7 @@
 package com.commin.pro.lectureschedule.page.lecture;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -23,13 +24,14 @@ import com.commin.pro.lectureschedule.util.UtilCheck;
 import com.commin.pro.lectureschedule.util.UtilCustomDialog;
 import com.commin.pro.lectureschedule.util.UtilDate;
 import com.commin.pro.lectureschedule.util.UtilDialog;
+import com.commin.pro.lectureschedule.util.UtilShare;
 import com.commin.pro.lectureschedule.widget.DialogProgress;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Page2Lecture extends AppCompatActivity {
-    private static final String LOG_TAG="Page2Lecture";
+    private static final String LOG_TAG = "Page2Lecture";
 
     private GridView gv_day;
     private GridView gv_content;
@@ -44,13 +46,18 @@ public class Page2Lecture extends AppCompatActivity {
     private ImageView iv_button_edit_lecture;
     private ArrayList<Model2Lecture> content_item;
 
+    public SharedPreferences.Editor editor;
+    public SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_page_lecture);
         setDeviceWidthHeight();
+        loadPreferences();
         createGUI();
         init_listener();
+
     }
 
     private void setDeviceWidthHeight() {
@@ -64,17 +71,10 @@ public class Page2Lecture extends AppCompatActivity {
     private void createGUI() {
         iv_button_add_lecture = (ImageView) findViewById(R.id.iv_button_add_lecture);
         iv_button_edit_lecture = (ImageView) findViewById(R.id.iv_button_edit_lecture);
-
         content_item = new ArrayList<Model2Lecture>();
         day_item = new ArrayList<String>();
-
         gv_day = (GridView) findViewById(R.id.gv_day);
-
-
         gv_content = (GridView) findViewById(R.id.gv_content);
-
-
-
         queryDataGrid();
     }
 
@@ -98,15 +98,15 @@ public class Page2Lecture extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Model2Lecture model = content_item.get(position);
                 if (model.isData()) {
-                    if(model.isMemo()){
+                    if (model.isMemo()) {
 
                         Intent intent = new Intent(Page2Lecture.this, Page2NoteView.class);
-                        intent.putExtra("model",model);
+                        intent.putExtra("model", model);
                         startActivity(intent);
-                    }else if(model.isEvents()){
+                    } else if (model.isEvents()) {
 
                         Intent intent = new Intent(Page2Lecture.this, Page2LectureView.class);
-                        intent.putExtra("model",model);
+                        intent.putExtra("model", model);
                         startActivity(intent);
                     }
 
@@ -117,12 +117,12 @@ public class Page2Lecture extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 final Model2Lecture model = content_item.get(position);
-                if(model.isData()){
+                if (model.isData()) {
 
 
-                    if(!model.isEvents()&&!model.isMemo()){
+                    if (!model.isEvents() && !model.isMemo()) {
                         String str = UtilCheck.checkDay(model.getId());
-                        UtilDialog.openCustomDialogConfirm(Page2Lecture.this, str+"요일 메모", "작성 하실래요?", "예", "아니오", new UtilCustomDialog.OnClickListener() {
+                        UtilDialog.openCustomDialogConfirm(Page2Lecture.this, str + "요일 메모", "작성 하실래요?", "예", "아니오", new UtilCustomDialog.OnClickListener() {
                             @Override
                             public void onClick() {
                                 try {
@@ -130,12 +130,12 @@ public class Page2Lecture extends AppCompatActivity {
                                         @Override
                                         public Object run() throws Exception {
                                             Intent intent = new Intent(Page2Lecture.this, Page2Note.class);
-                                            intent.putExtra("model",model);
-                                            startActivityForResult(intent,ApplicationProperty.REQUEST_CODE_FOR_NOTE);
+                                            intent.putExtra("model", model);
+                                            startActivityForResult(intent, ApplicationProperty.REQUEST_CODE_FOR_NOTE);
                                             return null;
                                         }
                                     });
-                                }catch (Exception e){
+                                } catch (Exception e) {
 
                                 }
 
@@ -147,7 +147,7 @@ public class Page2Lecture extends AppCompatActivity {
                                 return;
                             }
                         });
-                    }else{
+                    } else {
                         UtilDialog.openCustomDialogConfirm(Page2Lecture.this, "삭제", "삭제 할래요?", "예", "아니오", new UtilCustomDialog.OnClickListener() {
                             @Override
                             public void onClick() {
@@ -184,20 +184,21 @@ public class Page2Lecture extends AppCompatActivity {
 
 
 //        ArrayList<Model2Lecture> models = Dao2Lecture.queryAllData();
-        ArrayList<Model2Lecture>  models = null;
+        ArrayList<Model2Lecture> models = null;
         try {
-              models = (ArrayList<Model2Lecture>) DialogProgress.run(Page2Lecture.this, new DialogProgress.ProgressTaskIf() {
+            models = (ArrayList<Model2Lecture>) DialogProgress.run(Page2Lecture.this, new DialogProgress.ProgressTaskIf() {
                 @Override
                 public Object run() throws Exception {
                     return Dao2Lecture.queryAllData();
                 }
             });
-        }catch (Exception e){
-            Log.w(LOG_TAG,e);
+        } catch (Exception e) {
+            Log.w(LOG_TAG, e);
         }
 
         //day setting - 마지막 요일 구하기
-        String[] arr_string_day = getResources().getStringArray(R.array.days_7);
+        int day_resource = sharedPreferences.getInt(UtilShare.KEY_VALUE_DAY_RESOURCE, R.array.days_7);
+        String[] arr_string_day = getResources().getStringArray(day_resource);
 
         day_item.add("");
         for (int i = 0; i < arr_string_day.length; i++) {
@@ -207,8 +208,8 @@ public class Page2Lecture extends AppCompatActivity {
         gv_day.setColumnWidth(device_width / NumColum);
         adapter2GridDay.notifyDataSetChanged();
 
-
-        String[] arr_string_time = getResources().getStringArray(R.array.time_08_19);
+        int time_resource = sharedPreferences.getInt(UtilShare.KEY_VALUE_TIME_RESOURCE, R.array.time_08_19);
+        String[] arr_string_time = getResources().getStringArray(time_resource);
         NumRow = arr_string_time.length;
         gv_content.setNumColumns(NumColum);
         gv_content.setColumnWidth(device_width / NumColum);
@@ -236,10 +237,11 @@ public class Page2Lecture extends AppCompatActivity {
             }
             model.setColumn_index(colum_index);
             model.setId(row_index + ApplicationProperty.OPERATOR_ID + colum_index);
-
-            for (Model2Lecture mo : models) {
-                if (model.getId().equals(mo.getId())) {
-                    model = mo;
+            if (models != null) {
+                for (Model2Lecture mo : models) {
+                    if (model.getId().equals(mo.getId())) {
+                        model = mo;
+                    }
                 }
             }
             colum_index++;
@@ -260,5 +262,10 @@ public class Page2Lecture extends AppCompatActivity {
         } else {
             UtilDialog.showToast(Page2Lecture.this, "취소 되었습니다.");
         }
+    }
+
+    private void loadPreferences() {
+        sharedPreferences = UtilShare.getSharedPreferences(UtilShare.SAHRE_STATUS, Page2Lecture.this);
+        editor = UtilShare.getEditor(sharedPreferences);
     }
 }

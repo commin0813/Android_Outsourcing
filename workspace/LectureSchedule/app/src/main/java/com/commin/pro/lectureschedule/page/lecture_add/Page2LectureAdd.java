@@ -1,5 +1,6 @@
 package com.commin.pro.lectureschedule.page.lecture_add;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import com.commin.pro.lectureschedule.dao.Dao2Lecture;
 import com.commin.pro.lectureschedule.model.Model2Lecture;
 import com.commin.pro.lectureschedule.util.UtilCheck;
 import com.commin.pro.lectureschedule.util.UtilDialog;
+import com.commin.pro.lectureschedule.util.UtilShare;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -34,17 +36,22 @@ public class Page2LectureAdd extends AppCompatActivity {
     private TextView btn_complete_add;
     private String[] time;
 
+    public SharedPreferences.Editor editor;
+    public SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_page_lecture_add);
+        loadPreferences();
         createGUI();
         init_listener();
     }
 
-    private void createGUI() {
 
-        time = getResources().getStringArray(R.array.time_08_19);
+    private void createGUI() {
+        int resource_time = sharedPreferences.getInt(UtilShare.KEY_VALUE_TIME_RESOURCE, R.array.time_08_19);
+        time = getResources().getStringArray(resource_time);
 
         btn_complete_add = (TextView) findViewById(R.id.btn_complete_add);
         radio_group = (RadioGroup) findViewById(R.id.radio_group);
@@ -78,7 +85,7 @@ public class Page2LectureAdd extends AppCompatActivity {
     }
 
     private boolean checkNull() {
-        if (ed_class_name.getText().toString().equals("") && ed_classroom_name.getText().toString().equals("") && ed_professor_name.getText().toString().equals("")) {
+        if (ed_class_name.getText().toString().equals("") || ed_classroom_name.getText().toString().equals("") || ed_professor_name.getText().toString().equals("")) {
             return true;
         }
 
@@ -244,5 +251,10 @@ public class Page2LectureAdd extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void loadPreferences() {
+        sharedPreferences = UtilShare.getSharedPreferences(UtilShare.SAHRE_STATUS, Page2LectureAdd.this);
+        editor = UtilShare.getEditor(sharedPreferences);
     }
 }

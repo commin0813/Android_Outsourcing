@@ -40,18 +40,20 @@ public class Page2Note extends AppCompatActivity {
         });
 
     }
-    private boolean checkNull(){
-        if(ed_memo_title.getText().toString().equals("") && ed_memo_title.getText().toString().equals(null)){
+
+    private boolean checkNull() {
+        if (ed_memo_title.getText().toString().equals("") || ed_memo_title.getText().toString().equals(null)) {
             return true;
         }
-        if(ed_memo.getText().toString().equals("") && ed_memo.getText().toString().equals(null)){
+        if (ed_memo.getText().toString().equals("") || ed_memo.getText().toString().equals(null)) {
             return true;
         }
         return false;
     }
+
     private void saveData() {
-        if( checkNull()){
-            UtilDialog.showToast(Page2Note.this,"값을 모두 입력하세요.");
+        if (checkNull()) {
+            UtilDialog.showToast(Page2Note.this, "값을 모두 입력하세요.");
             return;
         }
         Model2Lecture model = (Model2Lecture) getIntent().getSerializableExtra("model");

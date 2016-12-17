@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.commin.pro.lectureschedule.ApplicationProperty;
 import com.commin.pro.lectureschedule.R;
@@ -48,6 +49,7 @@ public class Page2Lecture extends AppCompatActivity {
 
     public SharedPreferences.Editor editor;
     public SharedPreferences sharedPreferences;
+    public boolean isLongClick = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,19 +99,21 @@ public class Page2Lecture extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Model2Lecture model = content_item.get(position);
-                if (model.isData()) {
-                    if (model.isMemo()) {
+                if (!isLongClick) {
+                    if (model.isData()) {
+                        if (model.isMemo()) {
 
-                        Intent intent = new Intent(Page2Lecture.this, Page2NoteView.class);
-                        intent.putExtra("model", model);
-                        startActivity(intent);
-                    } else if (model.isEvents()) {
+                            Intent intent = new Intent(Page2Lecture.this, Page2NoteView.class);
+                            intent.putExtra("model", model);
+                            startActivity(intent);
+                        } else if (model.isEvents()) {
 
-                        Intent intent = new Intent(Page2Lecture.this, Page2LectureView.class);
-                        intent.putExtra("model", model);
-                        startActivity(intent);
+                            Intent intent = new Intent(Page2Lecture.this, Page2LectureView.class);
+                            intent.putExtra("model", model);
+                            startActivity(intent);
+                        }
+
                     }
-
                 }
             }
         });
@@ -117,9 +121,8 @@ public class Page2Lecture extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 final Model2Lecture model = content_item.get(position);
+                isLongClick = true;
                 if (model.isData()) {
-
-
                     if (!model.isEvents() && !model.isMemo()) {
                         String str = UtilCheck.checkDay(model.getId());
                         UtilDialog.openCustomDialogConfirm(Page2Lecture.this, str + "요일 메모", "작성 하실래요?", "예", "아니오", new UtilCustomDialog.OnClickListener() {
@@ -138,12 +141,12 @@ public class Page2Lecture extends AppCompatActivity {
                                 } catch (Exception e) {
 
                                 }
-
-
+                                isLongClick = false;
                             }
                         }, new UtilCustomDialog.OnClickListener() {
                             @Override
                             public void onClick() {
+                                isLongClick = false;
                                 return;
                             }
                         });
@@ -153,15 +156,19 @@ public class Page2Lecture extends AppCompatActivity {
                             public void onClick() {
                                 Dao2Lecture.deleteData(model);
                                 queryDataGrid();
+                                isLongClick = false;
                             }
                         }, new UtilCustomDialog.OnClickListener() {
                             @Override
                             public void onClick() {
+                                isLongClick = false;
                                 return;
                             }
                         });
+
                     }
                 }
+
                 return false;
             }
         });
@@ -178,7 +185,7 @@ public class Page2Lecture extends AppCompatActivity {
         gv_day.setAdapter(adapter2GridDay);
 
         //위와 동일
-        adapter2GridContent = new Adapter2GridContent(Page2Lecture.this, R.layout.item_grid_content, content_item);
+        adapter2GridContent = new Adapter2GridContent(Page2Lecture.this, R.layout.item_grid_content,gv_content, content_item);
         gv_content.invalidateViews();
         gv_content.setAdapter(adapter2GridContent);
 
@@ -253,6 +260,8 @@ public class Page2Lecture extends AppCompatActivity {
         adapter2GridContent.notifyDataSetInvalidated();
 
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

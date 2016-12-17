@@ -9,6 +9,7 @@
         android:layout_height="30dp"
         android:background="@color/colorGrayD3"
         android:orientation="horizontal"
+        android:id="@+id/ll_lecture_top"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
@@ -54,6 +55,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:id="@+id/ll_lecture_day"
             android:layout_height="20dp">
 
             <GridView
@@ -76,6 +78,7 @@
                 android:layout_height="match_parent"
                 android:columnWidth="30dp"
                 android:numColumns="auto_fit"
+                android:listSelector="@drawable/grid_selecter"
                 android:stretchMode="columnWidth" />
 
 

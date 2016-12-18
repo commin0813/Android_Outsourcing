@@ -1,12 +1,11 @@
 package com.commin.pro.lectureschedule.page.lecture_add;
 
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -19,7 +18,6 @@ import com.commin.pro.lectureschedule.R;
 import com.commin.pro.lectureschedule.dao.Dao2Lecture;
 import com.commin.pro.lectureschedule.model.Model2Lecture;
 import com.commin.pro.lectureschedule.util.UtilCheck;
-import com.commin.pro.lectureschedule.util.UtilCustomDialog;
 import com.commin.pro.lectureschedule.util.UtilDialog;
 import com.commin.pro.lectureschedule.util.UtilShare;
 import com.commin.pro.lectureschedule.widget.DialogProgress;
@@ -181,8 +179,8 @@ public class Page2LectureAdd extends AppCompatActivity {
             for (int i = 0; i < period; i++) {
                 Model2Lecture model = new Model2Lecture();
                 id = (start_row_index + i) + ApplicationProperty.OPERATOR_ID + colum_index;
-                if(checkDuplicate(id)){
-                   return;
+                if (checkDuplicate(id)) {
+                    return;
                 }
                 model.setId(id);
                 model.setClass_name(ed_class_name.getText().toString());
@@ -208,7 +206,7 @@ public class Page2LectureAdd extends AppCompatActivity {
             Model2Lecture model = new Model2Lecture();
             int groupid = new Random().nextInt();
             id = start_row_index + ApplicationProperty.OPERATOR_ID + colum_index;
-            if(checkDuplicate(id)){
+            if (checkDuplicate(id)) {
                 return;
             }
             model.setId(id);
@@ -228,10 +226,10 @@ public class Page2LectureAdd extends AppCompatActivity {
         finish();
     }
 
-    private boolean checkDuplicate(String id){
+    private boolean checkDuplicate(String id) {
         for (Model2Lecture mo : dao_items) {
-            if(mo.getId().equals(id)){
-                UtilDialog.showToast(Page2LectureAdd.this,UtilCheck.checkDay(id)+"요일 "+UtilCheck.checkTimeForId(id)+"시"+"\n이미 등록된 시간표나 메모가 있습니다.");
+            if (mo.getId().equals(id)) {
+                UtilDialog.showToast(Page2LectureAdd.this, UtilCheck.checkDay(id) + "요일 " + UtilCheck.checkTimeForId(id) + "시" + "\n이미 등록된 시간표나 메모가 있습니다.");
                 return true;//중복됨
             }
         }

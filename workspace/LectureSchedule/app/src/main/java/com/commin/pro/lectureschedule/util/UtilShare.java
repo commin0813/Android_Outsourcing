@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 /**
- * Created by hyungwoo on 2016-08-02.
+ * Created by user on 2016-08-02.
  */
 public class UtilShare {
     public final static String LOG_TAG = "UtilShare";
@@ -18,7 +18,7 @@ public class UtilShare {
     public final static int BOOL_TYPE = 4;
 
 
-    //filne_name
+    //file_name
     public final static String SAHRE_STATUS = "lecture_settings";
 
 

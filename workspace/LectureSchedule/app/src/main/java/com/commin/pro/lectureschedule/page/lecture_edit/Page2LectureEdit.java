@@ -2,7 +2,6 @@ package com.commin.pro.lectureschedule.page.lecture_edit;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;

@@ -1,15 +1,12 @@
 package com.commin.pro.lectureschedule;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.commin.pro.lectureschedule.dao.DBHelper;
 import com.commin.pro.lectureschedule.dao.Dao2Lecture;
-import com.commin.pro.lectureschedule.model.Model2Lecture;
 import com.commin.pro.lectureschedule.page.lecture.Page2Lecture;
-
-import java.util.HashMap;
 
 public class Application extends AppCompatActivity {
 

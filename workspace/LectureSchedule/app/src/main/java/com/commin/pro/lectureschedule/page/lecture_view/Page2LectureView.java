@@ -1,17 +1,13 @@
 package com.commin.pro.lectureschedule.page.lecture_view;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.commin.pro.lectureschedule.R;
@@ -63,10 +59,8 @@ public class Page2LectureView extends AppCompatActivity {
         ed_classroom_name_view = (EditText) findViewById(R.id.ed_classroom_name_view);
 
 
-
         sp_start_time_view = (Spinner) findViewById(R.id.sp_start_time_view);
         sp_end_time_view = (Spinner) findViewById(R.id.sp_end_time_view);
-
 
 
     }

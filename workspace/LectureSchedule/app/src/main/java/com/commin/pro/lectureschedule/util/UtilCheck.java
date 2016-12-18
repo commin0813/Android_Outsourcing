@@ -1,12 +1,11 @@
 package com.commin.pro.lectureschedule.util;
 
-import android.content.Intent;
 import android.util.Log;
 
 import java.util.StringTokenizer;
 
 /**
- * Created by hyungwoo on 2016-12-15.
+ * Created by user on 2016-12-15.
  */
 public class UtilCheck {
     public static int checkPeriod(String start_time, String end_time) {

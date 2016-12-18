@@ -15,15 +15,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".page.schedule.Page2Schedule" />
-        <activity android:name=".page.note.Page2Note" />
+        <activity
+            android:name=".page.note.Page2Note"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".page.lecture_edit.Page2LectureEdit"
-            android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".page.lecture.Page2Lecture" />
-        <activity android:name=".page.lecture_add.Page2LectureAdd" />
-        <activity android:name=".page.note_view.Page2NoteView" />
-        <activity android:name=".page.lecture_view.Page2LectureView"></activity>
+        <activity
+            android:name=".page.lecture_edit.Page2LectureEdit"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".page.lecture.Page2Lecture"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.lecture_add.Page2LectureAdd"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.note_view.Page2NoteView"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.lecture_view.Page2LectureView"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

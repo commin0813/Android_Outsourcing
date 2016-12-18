@@ -2,15 +2,15 @@ package com.commin.pro.lectureschedule.page.lecture;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.commin.pro.lectureschedule.ApplicationProperty;
 import com.commin.pro.lectureschedule.R;
@@ -23,13 +23,11 @@ import com.commin.pro.lectureschedule.page.note.Page2Note;
 import com.commin.pro.lectureschedule.page.note_view.Page2NoteView;
 import com.commin.pro.lectureschedule.util.UtilCheck;
 import com.commin.pro.lectureschedule.util.UtilCustomDialog;
-import com.commin.pro.lectureschedule.util.UtilDate;
 import com.commin.pro.lectureschedule.util.UtilDialog;
 import com.commin.pro.lectureschedule.util.UtilShare;
 import com.commin.pro.lectureschedule.widget.DialogProgress;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * 메인이 되는 클래스이며, 다른 영역에서 받은 Event 나 행위에대하여
@@ -125,7 +123,7 @@ public class Page2Lecture extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 final Model2Lecture model = content_item.get(position);
-                isLongClick = true;
+
                 if (model.isData()) {
                     if (!model.isEvents() && !model.isMemo()) {//롱클릭한 그리드영역이 강의데이터도 없고 메모데이터도 없는 빈 영역이면 메모작성 엑티비티를 실행합니다.
                         String str = UtilCheck.checkDay(model.getId());
@@ -145,31 +143,37 @@ public class Page2Lecture extends AppCompatActivity {
                                 } catch (Exception e) {
 
                                 }
-                                isLongClick = false;
+
                             }
                         }, new UtilCustomDialog.OnClickListener() {
                             @Override
                             public void onClick() {
-                                isLongClick = false;
+
                                 return;
                             }
                         });
                     } else {
+                        isLongClick = true;
                         UtilDialog.openCustomDialogConfirm(Page2Lecture.this, "삭제", "삭제 할래요?", "예", "아니오", new UtilCustomDialog.OnClickListener() {
                             @Override
                             public void onClick() {
                                 Dao2Lecture.deleteData(model);
                                 queryDataGrid();
-                                isLongClick = false;
                             }
                         }, new UtilCustomDialog.OnClickListener() {
                             @Override
                             public void onClick() {
-                                isLongClick = false;
                                 return;
                             }
                         });
-
+                        Runnable runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                isLongClick = false;
+                            }
+                        };
+                        Handler handler = new Handler();
+                        handler.postDelayed(runnable, 500);
                     }
                 }
 
@@ -293,15 +297,12 @@ public class Page2Lecture extends AppCompatActivity {
     }
 
     private long backKeyPressedTime = 0;
+
     @Override
     public void onBackPressed() {
-        if (isLongClick == true) {
-            isLongClick = false;
-        }
-
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
-            UtilDialog.showToast(Page2Lecture.this,"한번 더 클릭하시면 종료됩니다.");
+            UtilDialog.showToast(Page2Lecture.this, "한번 더 클릭하시면 종료됩니다.");
             return;
         }
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {

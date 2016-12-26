@@ -2,7 +2,6 @@ package com.commin.pro.lectureschedule.page.lecture_edit;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -26,15 +25,18 @@ public class Page2LectureEdit extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.layout_page_lecture_edit);
+        loadPreferences();
         createGUI();
         setLastDay();
         setLastTime();
-        loadPreferences();
     }
 
     private void createGUI() {
         sp_edit_last_day = (Spinner) findViewById(R.id.sp_edit_last_day);
+
         sp_edit_last_time = (Spinner) findViewById(R.id.sp_edit_last_time);
+
+
         btn_save_setting = (Button) findViewById(R.id.btn_save_setting);
         btn_save_setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,10 +44,43 @@ public class Page2LectureEdit extends Activity {
                 int timeResourceValue = getTimeResourceValue();
                 int dayResourceValue = getDayResourceValue();
                 if (timeResourceValue != 0 && dayResourceValue != 0) {
-//                    UtilShare.savePreferences(editor,);
+                    UtilShare.savePreferences(editor, UtilShare.KEY_VALUE_DAY_RESOURCE, String.valueOf(dayResourceValue), UtilShare.INT_TYPE);
+                    UtilShare.savePreferences(editor, UtilShare.KEY_VALUE_TIME_RESOURCE, String.valueOf(timeResourceValue), UtilShare.INT_TYPE);
+                    setResult(RESULT_OK, null);
+                } else {
+                    setResult(RESULT_CANCELED, null);
                 }
+                finish();
             }
         });
+    }
+
+    private int getTimeResourceIndex(int time_resource) {
+        int index = 0;
+        switch (time_resource) {
+            case R.array.time_08_19:
+                index = 0;
+                break;//
+            case R.array.time_08_18:
+                index = 1;
+                break;//
+            case R.array.time_08_17:
+                index = 2;
+                break;//
+            case R.array.time_08_16:
+                index = 3;
+                break;//
+            case R.array.time_08_15:
+                index = 4;
+                break;//
+            case R.array.time_08_14:
+                index = 5;
+                break;//
+            case R.array.time_08_13:
+                index = 6;
+                break;//
+        }
+        return index;
     }
 
     private int getTimeResourceValue() {
@@ -69,6 +104,22 @@ public class Page2LectureEdit extends Activity {
         return 0;
     }
 
+    private int getDayResourceIndex(int resource_day) {
+        int index = 0;
+        switch (resource_day) {
+            case R.array.days_7:
+                index = 0;
+                break;//
+            case R.array.days_6:
+                index = 1;
+                break;//
+            case R.array.days_5:
+                index = 2;
+                break;//
+        }
+        return index;
+    }
+
     private int getDayResourceValue() {
         int position = sp_edit_last_day.getSelectedItemPosition();
         switch (position) {
@@ -83,14 +134,17 @@ public class Page2LectureEdit extends Activity {
     }
 
     private void setLastDay() {
-        ArrayList<String> items2 = new ArrayList<String>();
+        ArrayList<String> items = new ArrayList<String>();
         String[] day = getResources().getStringArray(R.array.days_7);
         for (int i = day.length - 1; i > 3; i--) {
-            items2.add(day[i] + "요일");
+            items.add(day[i] + "요일");
         }
 
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(Page2LectureEdit.this, android.R.layout.simple_spinner_item, items2);
-        sp_edit_last_day.setAdapter(adapter2);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Page2LectureEdit.this, android.R.layout.simple_spinner_item, items);
+        sp_edit_last_day.setAdapter(adapter);
+        int resource_day = sharedPreferences.getInt(UtilShare.KEY_VALUE_DAY_RESOURCE, R.array.days_7);
+        int index = getDayResourceIndex(resource_day);
+        sp_edit_last_day.setSelection(getDayResourceIndex(resource_day));
     }
 
     private void setLastTime() {
@@ -101,6 +155,8 @@ public class Page2LectureEdit extends Activity {
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(Page2LectureEdit.this, android.R.layout.simple_spinner_item, items);
         sp_edit_last_time.setAdapter(adapter);
+        int resource_time = sharedPreferences.getInt(UtilShare.KEY_VALUE_TIME_RESOURCE, R.array.time_08_19);
+        sp_edit_last_time.setSelection(getTimeResourceIndex(resource_time));
     }
 
     private void loadPreferences() {

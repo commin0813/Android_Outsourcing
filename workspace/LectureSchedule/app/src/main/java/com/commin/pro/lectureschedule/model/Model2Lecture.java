@@ -35,7 +35,6 @@ public class Model2Lecture implements Serializable {
     private String memo;
 
 
-
     public boolean isData() {
         return isData;
     }

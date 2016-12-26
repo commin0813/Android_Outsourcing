@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 /**
- * Created by hyungwoo on 2016-08-02.
+ * Created by user on 2016-08-02.
  */
 public class UtilShare {
     public final static String LOG_TAG = "UtilShare";
@@ -18,22 +18,19 @@ public class UtilShare {
     public final static int BOOL_TYPE = 4;
 
 
-    //filne_name
+    //file_name
     public final static String SAHRE_STATUS = "lecture_settings";
 
 
     //file_data_key_name
-    public final static String KEY_VALUE_SETTIngTIME_RESOURCE = "flash_status";
-    public final static String KEY_VALUE_SERVICE_STATUS_bool = "service_status";
+    public final static String KEY_VALUE_TIME_RESOURCE = "time_resource";
+    public final static String KEY_VALUE_DAY_RESOURCE = "day_resource";
 
 
+    //file_data_defalt_value
+    public final static int TIME_RESOURCE_DEFALT_VALUE = 0;
+    public final static int DAY_RESOURCE_DEFALT_VALUE = 0;
 
-    //file_fata_defalt_value
-    public final static int RESPONSIVE_DEFALT_VALUE = 50;
-    public final static boolean FLASH_STATUS_DEFALT_VALUE = false;
-    public final static boolean SERVICE_STATUS_DEFALT_VALUE = false;
-    public final static boolean SERVICE_AUTO_STARTUP_DEFALT_VALUE = true;
-    public final static boolean SERVICE_PAUSE_DEFALT_VALUE = false;
 
     public static void savePreferences(SharedPreferences.Editor editor, String key, String value, int type) {
 

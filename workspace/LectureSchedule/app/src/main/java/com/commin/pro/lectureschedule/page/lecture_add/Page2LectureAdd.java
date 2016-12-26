@@ -1,11 +1,11 @@
 package com.commin.pro.lectureschedule.page.lecture_add;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -19,11 +19,14 @@ import com.commin.pro.lectureschedule.dao.Dao2Lecture;
 import com.commin.pro.lectureschedule.model.Model2Lecture;
 import com.commin.pro.lectureschedule.util.UtilCheck;
 import com.commin.pro.lectureschedule.util.UtilDialog;
+import com.commin.pro.lectureschedule.util.UtilShare;
+import com.commin.pro.lectureschedule.widget.DialogProgress;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Page2LectureAdd extends AppCompatActivity {
+    private static final String LOG_TAG = "Page2LectureAdd";
     private RadioGroup radio_group;
     private RadioButton radio_btn_mon, radio_btn_the, radio_btn_wed, radio_btn_thu, radio_btn_frd, radio_btn_sat, radio_btn_sun;
     private EditText ed_class_name, ed_professor_name, ed_classroom_name;
@@ -34,17 +37,24 @@ public class Page2LectureAdd extends AppCompatActivity {
     private TextView btn_complete_add;
     private String[] time;
 
+    public SharedPreferences.Editor editor;
+    public SharedPreferences sharedPreferences;
+
+    private ArrayList<Model2Lecture> dao_items = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_page_lecture_add);
+        loadPreferences();
         createGUI();
         init_listener();
     }
 
-    private void createGUI() {
 
-        time = getResources().getStringArray(R.array.time_08_19);
+    private void createGUI() {
+        int resource_time = sharedPreferences.getInt(UtilShare.KEY_VALUE_TIME_RESOURCE, R.array.time_08_19);
+        time = getResources().getStringArray(resource_time);
 
         btn_complete_add = (TextView) findViewById(R.id.btn_complete_add);
         radio_group = (RadioGroup) findViewById(R.id.radio_group);
@@ -78,7 +88,7 @@ public class Page2LectureAdd extends AppCompatActivity {
     }
 
     private boolean checkNull() {
-        if (ed_class_name.getText().toString().equals("") && ed_classroom_name.getText().toString().equals("") && ed_professor_name.getText().toString().equals("")) {
+        if (ed_class_name.getText().toString().equals("") || ed_classroom_name.getText().toString().equals("") || ed_professor_name.getText().toString().equals("")) {
             return true;
         }
 
@@ -107,6 +117,19 @@ public class Page2LectureAdd extends AppCompatActivity {
             UtilDialog.showToast(Page2LectureAdd.this, "정상적인 시간이 아닙니다.");
             return;
         }
+
+
+        try {
+            dao_items = (ArrayList<Model2Lecture>) DialogProgress.run(Page2LectureAdd.this, new DialogProgress.ProgressTaskIf() {
+                @Override
+                public Object run() throws Exception {
+                    return Dao2Lecture.queryAllData();
+                }
+            });
+        } catch (Exception e) {
+            Log.w(LOG_TAG, e);
+        }
+
         RadioButton radioButton = (RadioButton) findViewById(radio_group.getCheckedRadioButtonId());
         String selected_day = radioButton.getText().toString();
         int colum_index = 0;
@@ -156,6 +179,9 @@ public class Page2LectureAdd extends AppCompatActivity {
             for (int i = 0; i < period; i++) {
                 Model2Lecture model = new Model2Lecture();
                 id = (start_row_index + i) + ApplicationProperty.OPERATOR_ID + colum_index;
+                if (checkDuplicate(id)) {
+                    return;
+                }
                 model.setId(id);
                 model.setClass_name(ed_class_name.getText().toString());
                 model.setClassroom_name(ed_classroom_name.getText().toString());
@@ -180,6 +206,9 @@ public class Page2LectureAdd extends AppCompatActivity {
             Model2Lecture model = new Model2Lecture();
             int groupid = new Random().nextInt();
             id = start_row_index + ApplicationProperty.OPERATOR_ID + colum_index;
+            if (checkDuplicate(id)) {
+                return;
+            }
             model.setId(id);
             model.setClass_name(ed_class_name.getText().toString());
             model.setClassroom_name(ed_classroom_name.getText().toString());
@@ -195,6 +224,16 @@ public class Page2LectureAdd extends AppCompatActivity {
         }
         setResult(RESULT_OK, null);
         finish();
+    }
+
+    private boolean checkDuplicate(String id) {
+        for (Model2Lecture mo : dao_items) {
+            if (mo.getId().equals(id)) {
+                UtilDialog.showToast(Page2LectureAdd.this, UtilCheck.checkDay(id) + "요일 " + UtilCheck.checkTimeForId(id) + "시" + "\n이미 등록된 시간표나 메모가 있습니다.");
+                return true;//중복됨
+            }
+        }
+        return false;//중복안됨
     }
 
     private void init_listener() {
@@ -244,5 +283,10 @@ public class Page2LectureAdd extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void loadPreferences() {
+        sharedPreferences = UtilShare.getSharedPreferences(UtilShare.SAHRE_STATUS, Page2LectureAdd.this);
+        editor = UtilShare.getEditor(sharedPreferences);
     }
 }

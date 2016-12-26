@@ -1,18 +1,15 @@
 package com.commin.pro.lectureschedule.page.note;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.commin.pro.lectureschedule.ApplicationProperty;
 import com.commin.pro.lectureschedule.R;
 import com.commin.pro.lectureschedule.dao.Dao2Lecture;
 import com.commin.pro.lectureschedule.model.Model2Lecture;
 import com.commin.pro.lectureschedule.util.UtilDialog;
-import com.commin.pro.lectureschedule.widget.DialogProgress;
 
 import java.util.Random;
 
@@ -40,18 +37,20 @@ public class Page2Note extends AppCompatActivity {
         });
 
     }
-    private boolean checkNull(){
-        if(ed_memo_title.getText().toString().equals("") && ed_memo_title.getText().toString().equals(null)){
+
+    private boolean checkNull() {
+        if (ed_memo_title.getText().toString().equals("") || ed_memo_title.getText().toString().equals(null)) {
             return true;
         }
-        if(ed_memo.getText().toString().equals("") && ed_memo.getText().toString().equals(null)){
+        if (ed_memo.getText().toString().equals("") || ed_memo.getText().toString().equals(null)) {
             return true;
         }
         return false;
     }
+
     private void saveData() {
-        if( checkNull()){
-            UtilDialog.showToast(Page2Note.this,"값을 모두 입력하세요.");
+        if (checkNull()) {
+            UtilDialog.showToast(Page2Note.this, "값을 모두 입력하세요.");
             return;
         }
         Model2Lecture model = (Model2Lecture) getIntent().getSerializableExtra("model");

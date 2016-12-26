@@ -1,5 +1,6 @@
 package com.commin.pro.commincalendar;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+
+import com.commin.pro.commincalendar.page.calendar.Page2Calendar;
 
 public class Application extends AppCompatActivity {
     private ImageView intro_image = null;
@@ -41,6 +44,14 @@ public class Application extends AppCompatActivity {
                 tv.startAnimation(animationFade);
             }
         }, 0);
+
+        mhandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(Application.this,Page2Calendar.class));
+                finish();
+            }
+        },1500);
 
     }
 }

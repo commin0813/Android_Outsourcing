@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Lecture</string>
+    <string name="app_title">KNU 시간표 도우미</string>
 </resources>

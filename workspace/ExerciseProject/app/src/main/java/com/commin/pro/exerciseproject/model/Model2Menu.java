@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 /**
  * Created by user on 2016-11-28.
- * 메뉴에서 사용하는 Model입니다.
  */
 public class Model2Menu implements Serializable {
     private String menu_text;

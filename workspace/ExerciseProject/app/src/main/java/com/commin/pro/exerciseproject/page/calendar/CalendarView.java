@@ -23,7 +23,6 @@ import java.util.HashSet;
 /**
  * Created by user on 2016-11-30.
  * 이 클래스는 CalendarView를 Cusotomizing 하고자 만든 클래스입니다.
- *
  */
 public class CalendarView extends LinearLayout {
     private static final String LOG_TAG = "CalendarView";

@@ -114,7 +114,7 @@ public class EditView extends View implements Page2PhotoEdit.EditHandler {
         }
         float x = event.getX();
         float y = event.getY();
-        x = x / (getWidth() / (float)bitmap.getWidth());//늘어난 bitmap의 비율만큼 나누어주어야 정상적으로 그려집니다.
+        x = x / (getWidth() / (float)bitmap.getWidth());
         y = y / (getHeight() / (float)bitmap.getHeight());
 
         switch (event.getAction()) {

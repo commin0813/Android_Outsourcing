@@ -9,12 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 
-/**
- * Created by user on 2016-11-28.
- * 이 클래스는 앱의 데이터를 Model 형태로 저장하여 이동시키는 역할입니다.
- * 모든 데이터는 이처럼 Model 형태로 만들어서 이동시키는게 좋은 코딩방법입니다.
- * 앞으로 코딩하시면서 참고하셔서 사용하세요^^
- */
+
 public class Model2Excercise implements Serializable {
     private Date date;
     private HashMap<String, Boolean> check;

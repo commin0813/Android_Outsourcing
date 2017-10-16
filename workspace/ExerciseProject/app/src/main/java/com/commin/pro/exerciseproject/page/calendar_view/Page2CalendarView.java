@@ -19,8 +19,7 @@ import com.commin.pro.exerciseproject.util.UtilImage;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 /*
-달력을 클릭하였을때 호출되는 View Activity입니다. 호출될때 받은 intent 데이트에 모델을 가지고
-화면을 변경시키면됩니다.
+달력을 클릭하였을때 호출되는 View Activity입니다.
  */
 public class Page2CalendarView extends AppCompatActivity {
 

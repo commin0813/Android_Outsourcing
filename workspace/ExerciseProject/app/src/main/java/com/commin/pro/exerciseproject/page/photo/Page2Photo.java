@@ -37,8 +37,6 @@ import java.util.HashMap;
 /*
 Model에 저장되어있는 사진이나 Camera를 통해 받아온 사진 데이터를
 확인하고 edit Activity로 보내서 편집후 다시 받아오는 클래스입니다.
-여기서는 코딩이 많지만, 화면에 데이터를 출력하고 저장하는 역할을 하는 곳입니다.
-
  */
 public class Page2Photo extends AppCompatActivity {
     private Button btn_photo, btn_edit, btn_save;
@@ -59,8 +57,6 @@ public class Page2Photo extends AppCompatActivity {
     }
 
     private void getPermission() {
-        //마시멜로 이상부터는 Menifest 에서 permission을 정의해도 자동으로 권한을 가져오지 못합니다.
-        //때문에 이러한 코딩을 하여 permission을 가져와야합니다.
         if (ContextCompat.checkSelfPermission(Page2Photo.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {

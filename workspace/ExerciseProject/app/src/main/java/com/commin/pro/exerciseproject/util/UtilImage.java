@@ -25,9 +25,6 @@ import java.io.IOException;
  * Created by user on 2016-04-11.
  */
 public class UtilImage {
-    //이미지 사이즈 입니다. 이미지가 너무크면 편집할때 팅기므로
-    //원하는 사이즈에 quality를 지정하셔서 사용하세요.
-
     public final static int image_width = 500;
 
     public final static int image_height = 300;
@@ -126,7 +123,6 @@ public class UtilImage {
             int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
 
             if (orientation != -1) {
-                // We only recognize a subset of orientation tag values.
                 switch (orientation) {
                     case ExifInterface.ORIENTATION_ROTATE_90:
                         degree = 90;

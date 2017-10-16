@@ -151,10 +151,6 @@ public class Page2MenuList extends AppCompatActivity {
                 Dao2Excercise.updateModel(date, model);
                 Log.d(LOG_TAG, "complete updateModel in second if \n" + model.getCheck() + "---" + model.getDate() + "----" + model.isBeginner());
 
-                //이부분은 고급자코스와 초급자코스 뷰가 구별되어야하는데, 저희 거래내용상 그런내용은 없어서 뺐습니다.
-                //추후에 필요하시다면 수정하시면 됩니다.
-                //현재는 초급자로 운동하기를 등록해놨어도 고급자 운동하기를 등록하면 덮어씌워지게됩니다.
-
 //                if (Dao2Excercise.getHashMap().get(date).isBeginner() == model.isBeginner()) {//need update
 //                    Dao2Excercise.updateModel(date, model);
 //                    Log.d(LOG_TAG, "complete updateModel in second if \n" + model.getCheck() + "---" + model.getDate() + "----" + model.isBeginner());

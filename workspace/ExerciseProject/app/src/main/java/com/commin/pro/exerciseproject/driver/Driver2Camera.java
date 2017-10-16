@@ -2,11 +2,7 @@ package com.commin.pro.exerciseproject.driver;
 
 import android.hardware.Camera;
 import android.util.Log;
-/*
-이 클래스는 사용하지 않지만 나중에 필요하시면
-쓰시라고 첨부합니다.
-카메라 클래스의 객체를 수정하여 생성하는 클래스입니다.
- */
+
 public class Driver2Camera {
     private Camera camera;
 
